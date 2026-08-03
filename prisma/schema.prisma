@@ -1,0 +1,88 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider     = "prisma-client"
+  output       = "../src/generated/prisma"
+  moduleFormat = "cjs"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id            String         @id @default(uuid())
+  name          String
+  email         String         @unique
+  password      String
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  pages         Page[]
+  refreshTokens RefreshToken[]
+}
+
+model Page {
+  id          String    @id @default(uuid())
+  nameEN      String
+  nameAR      String
+  isVisible   Boolean   @default(false)
+  index       Int       @default(autoincrement())
+  createdById String
+  createdBy   User      @relation(fields: [createdById], references: [id])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime? @updatedAt
+  sections    Section[]
+}
+
+model Section {
+  id                String             @id @default(uuid())
+  nameEN            String
+  nameAR            String
+  index             Int                @default(autoincrement())
+  pageId            String
+  page              Page               @relation(fields: [pageId], references: [id])
+  createdBy         String
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime?          @updatedAt
+  sectionComponents SectionComponent[]
+}
+
+model Component {
+  id                String             @id @default(uuid())
+  nameEN            String
+  nameAR            String
+  index             Int                @default(autoincrement())
+  parentId          String?
+  parent            Component?         @relation("ComponentTree", fields: [parentId], references: [id])
+  children          Component[]        @relation("ComponentTree")
+  createdBy         String
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime?          @updatedAt
+  sectionComponents SectionComponent[]
+}
+
+model SectionComponent {
+  id                String    @id @default(uuid())
+  sectionId         String
+  componentId       String
+  section           Section   @relation(fields: [sectionId], references: [id])
+  component         Component @relation(fields: [componentId], references: [id])
+  componentData     Json
+  componentSettings Json
+  updatedAt         DateTime  @updatedAt
+
+  @@unique([sectionId, componentId]) // optional, if you want one component per section only once
+}
+
+model RefreshToken {
+  id        String   @id @default(uuid())
+  tokenHash String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  revoked   Boolean  @default(false)
+}
