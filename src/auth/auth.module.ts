@@ -1,0 +1,56 @@
+import { Module } from '@nestjs/common';
+import { PrismaModule } from '../core/database/prisma/prisma.module';
+import {
+  IRefreshTokenRepository,
+  IUserRepository,
+} from './domain/auth.repository.interface';
+import { UserPrismaRepository } from './infrastructure/user.prisma.repository';
+import { RefreshTokenPrismaRepository } from './infrastructure/refreshToken.prisma.repository';
+import {
+  IPasswordHasher,
+  ITokenService,
+} from './application/services.abstract';
+import { JwtTokenService } from './infrastructure/jwtToken.service';
+import { BcryptPasswordHasher } from './infrastructure/bcrypt.service';
+import { JwtModule } from '@nestjs/jwt';
+import { AuthController } from './presentation/http/auth.controller';
+import { AuthService } from './application/auth.service';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { APP_GUARD } from '@nestjs/core';
+import { JwtAuthGuard } from './presentation/gaurds/auth.guard';
+
+@Module({
+  imports: [
+    PrismaModule,
+    ConfigModule,
+    JwtModule.registerAsync({
+      imports: [ConfigModule], // Ensures ConfigService is available
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => {
+        const secret = configService.get<string>('ACCESS_SECRET_KEY');
+        console.log('JWT_SECRET from ConfigService:', secret);
+        return {
+          secret,
+          signOptions: { expiresIn: '1h' },
+        };
+      },
+    }),
+  ],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
+    },
+    { provide: IUserRepository, useClass: UserPrismaRepository },
+    {
+      provide: IRefreshTokenRepository,
+      useClass: RefreshTokenPrismaRepository,
+    },
+    { provide: ITokenService, useClass: JwtTokenService },
+    { provide: IPasswordHasher, useClass: BcryptPasswordHasher },
+
+    AuthService,
+  ],
+  controllers: [AuthController],
+})
+export class AuthModule {}

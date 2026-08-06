@@ -1,0 +1,40 @@
+import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
+import { Request } from 'express';
+import { ITokenService } from '../../application/services.abstract';
+import { Reflector } from '@nestjs/core';
+import { IS_PUBLIC_KEY } from '../../../shared/decorators/public.decorator';
+
+@Injectable()
+export class JwtAuthGuard implements CanActivate {
+  constructor(
+    private readonly tokenService: ITokenService,
+    private reflector: Reflector,
+  ) {}
+
+  canActivate(context: ExecutionContext): boolean {
+    const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
+      context.getHandler(),
+      context.getClass(),
+    ]);
+
+    if (isPublic) {
+      return true; // Skip authentication
+    }
+
+    const request = context
+      .switchToHttp()
+      .getRequest<Request & { user: { id: string; name: string } }>();
+    const authHeader = request.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return false;
+    }
+    const token = authHeader.split(' ')[1];
+    try {
+      const { id, name } = this.tokenService.verifyAccessToken(token);
+      request.user = { id, name };
+      return true;
+    } catch {
+      return false;
+    }
+  }
+}
