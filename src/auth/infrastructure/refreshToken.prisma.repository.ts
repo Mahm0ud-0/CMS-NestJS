@@ -1,17 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../core/database/prisma/prisma.service';
-import { IRefreshTokenRepository } from '../domain/auth.repository.interface';
-import { RefreshToken } from '../domain/auth.entities';
+import { IRefreshTokenRepository } from '../domain/auth.types';
+import { RefreshToken } from '../domain/auth.types';
+import { Prisma } from '../../generated/prisma/client';
 
 @Injectable()
-export class RefreshTokenPrismaRepository extends IRefreshTokenRepository {
-  constructor(private readonly prisma: PrismaService) {
-    super();
-  }
+export class RefreshTokenPrismaRepository implements IRefreshTokenRepository {
+  constructor(private readonly prisma: PrismaService) {}
 
   async findByTokenHash(hash: string): Promise<RefreshToken | null> {
     const record = await this.prisma.refreshToken.findUnique({
       where: { tokenHash: hash },
+      include: { user: true },
     });
     return record ? this.toDomain(record) : null;
   }
@@ -19,38 +19,47 @@ export class RefreshTokenPrismaRepository extends IRefreshTokenRepository {
   async save(token: RefreshToken): Promise<void> {
     await this.prisma.refreshToken.create({
       data: {
-        id: token.id,
+        uuid: token.id,
         tokenHash: token.tokenHash,
-        userId: token.userId,
         expiresAt: token.expiresAt,
-        createdAt: token.createdAt,
         revoked: token.revoked,
+        user: {
+          connect: { uuid: token.userId },
+        },
       },
     });
   }
 
   async revokeAllForUser(userId: string): Promise<void> {
     await this.prisma.refreshToken.updateMany({
-      where: { userId, revoked: false },
+      where: {
+        user: {
+          uuid: userId,
+        },
+        revoked: false,
+      },
       data: { revoked: true },
     });
   }
 
   async revoke(token: RefreshToken): Promise<void> {
     await this.prisma.refreshToken.update({
-      where: { id: token.id },
+      where: { uuid: token.id },
       data: { revoked: true },
     });
   }
 
-  private toDomain(prismaToken: any): RefreshToken {
-    return new RefreshToken(
-      prismaToken.id,
-      prismaToken.tokenHash,
-      prismaToken.userId,
-      prismaToken.expiresAt,
-      prismaToken.createdAt,
-      prismaToken.revoked,
-    );
+  private toDomain(
+    prismaToken: Prisma.RefreshTokenGetPayload<{
+      include: { user: true };
+    }>,
+  ): RefreshToken {
+    return {
+      id: prismaToken.uuid,
+      tokenHash: prismaToken.tokenHash,
+      userId: prismaToken.user.uuid,
+      expiresAt: prismaToken.expiresAt,
+      revoked: prismaToken.revoked,
+    };
   }
 }

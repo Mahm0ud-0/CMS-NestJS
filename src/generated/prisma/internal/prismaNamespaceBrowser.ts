@@ -77,6 +77,7 @@ export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof
 
 export const UserScalarFieldEnum = {
   id: 'id',
+  uuid: 'uuid',
   name: 'name',
   email: 'email',
   password: 'password',
@@ -89,11 +90,11 @@ export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof User
 
 export const PageScalarFieldEnum = {
   id: 'id',
+  uuid: 'uuid',
   nameEN: 'nameEN',
   nameAR: 'nameAR',
   isVisible: 'isVisible',
   index: 'index',
-  createdById: 'createdById',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -103,11 +104,11 @@ export type PageScalarFieldEnum = (typeof PageScalarFieldEnum)[keyof typeof Page
 
 export const SectionScalarFieldEnum = {
   id: 'id',
+  uuid: 'uuid',
   nameEN: 'nameEN',
   nameAR: 'nameAR',
   index: 'index',
   pageId: 'pageId',
-  createdBy: 'createdBy',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -117,11 +118,11 @@ export type SectionScalarFieldEnum = (typeof SectionScalarFieldEnum)[keyof typeo
 
 export const ComponentScalarFieldEnum = {
   id: 'id',
+  uuid: 'uuid',
   nameEN: 'nameEN',
   nameAR: 'nameAR',
   index: 'index',
   parentId: 'parentId',
-  createdBy: 'createdBy',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -131,8 +132,10 @@ export type ComponentScalarFieldEnum = (typeof ComponentScalarFieldEnum)[keyof t
 
 export const SectionComponentScalarFieldEnum = {
   id: 'id',
+  uuid: 'uuid',
   sectionId: 'sectionId',
   componentId: 'componentId',
+  index: 'index',
   componentData: 'componentData',
   componentSettings: 'componentSettings',
   updatedAt: 'updatedAt'
@@ -143,6 +146,7 @@ export type SectionComponentScalarFieldEnum = (typeof SectionComponentScalarFiel
 
 export const RefreshTokenScalarFieldEnum = {
   id: 'id',
+  uuid: 'uuid',
   tokenHash: 'tokenHash',
   userId: 'userId',
   expiresAt: 'expiresAt',

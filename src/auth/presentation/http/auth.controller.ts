@@ -11,8 +11,8 @@ import {
 } from '@nestjs/common';
 import { type Request, type Response } from 'express';
 import { AuthService } from '../../application/auth.service';
-import { LoginDto } from '../../application/dto/login.dto';
-import { RegisterDto } from '../../application/dto/register.dto';
+import { LoginDto } from './dto/login.dto';
+import { RegisterDto } from './dto/register.dto';
 import { JwtAuthGuard } from '../gaurds/auth.guard';
 import { Public } from '../../../shared/decorators/public.decorator';
 

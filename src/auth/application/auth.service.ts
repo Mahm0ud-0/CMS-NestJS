@@ -1,26 +1,30 @@
 import {
   ForbiddenException,
+  Inject,
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
+import { IRefreshTokenRepository, IUserRepository } from '../domain/auth.types';
 import {
-  IRefreshTokenRepository,
-  IUserRepository,
-} from '../domain/auth.repository.interface';
-import { IPasswordHasher, ITokenService } from './services.abstract';
-import { AuthResponseDto } from './dto/auth-response.dto';
-import { LoginDto } from './dto/login.dto';
-import { RefreshToken, User } from '../domain/auth.entities';
+  I_Password_Hasher,
+  I_Token_Service,
+  type IPasswordHasher,
+  type ITokenService,
+} from './services.interface';
+import { AuthResponseDto } from '../presentation/http/dto/auth-response.dto';
+import { LoginDto } from '../presentation/http/dto/login.dto';
+import { RefreshToken, User } from '../domain/auth.types';
 import * as crypto from 'crypto';
-import { RegisterDto } from './dto/register.dto';
+import { RegisterDto } from '../presentation/http/dto/register.dto';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private readonly userRepo: IUserRepository,
+    @Inject(IUserRepository) private readonly userRepo: IUserRepository,
+    @Inject(IRefreshTokenRepository)
     private readonly refreshTokenRepo: IRefreshTokenRepository,
-    private readonly passwordHasher: IPasswordHasher,
-    private readonly tokenService: ITokenService,
+    @Inject(I_Password_Hasher) private readonly passwordHasher: IPasswordHasher,
+    @Inject(I_Token_Service) private readonly tokenService: ITokenService,
   ) {}
 
   async register(dto: RegisterDto): Promise<AuthResponseDto> {
@@ -31,12 +35,12 @@ export class AuthService {
 
     const hashedPassword = await this.passwordHasher.hash(dto.password);
 
-    const user = new User(
-      crypto.randomUUID(),
-      dto.name,
-      dto.email,
-      hashedPassword,
-    );
+    const user: User = {
+      id: crypto.randomUUID(),
+      name: dto.name,
+      email: dto.email,
+      password: hashedPassword,
+    };
 
     await this.userRepo.save(user);
 
@@ -51,14 +55,13 @@ export class AuthService {
       expiresAt,
     } = this.tokenService.generateRefreshToken();
 
-    const refreshTokenEntity = new RefreshToken(
-      crypto.randomUUID(),
-      hash,
-      user.id,
-      expiresAt,
-      new Date(),
-      false,
-    );
+    const refreshTokenEntity: RefreshToken = {
+      id: crypto.randomUUID(),
+      tokenHash: hash,
+      userId: user.id,
+      expiresAt: expiresAt,
+      revoked: false,
+    };
     await this.refreshTokenRepo.save(refreshTokenEntity);
 
     return {
@@ -97,14 +100,13 @@ export class AuthService {
       expiresAt,
     } = this.tokenService.generateRefreshToken();
 
-    const refreshTokenEntity = new RefreshToken(
-      crypto.randomUUID(),
-      hash,
-      user.id,
-      expiresAt,
-      new Date(),
-      false, // not revoked
-    );
+    const refreshTokenEntity: RefreshToken = {
+      id: crypto.randomUUID(),
+      tokenHash: hash,
+      userId: user.id,
+      expiresAt: expiresAt,
+      revoked: false,
+    };
     await this.refreshTokenRepo.save(refreshTokenEntity);
 
     return {
@@ -138,7 +140,7 @@ export class AuthService {
 
     await this.refreshTokenRepo.revoke(storedToken);
 
-    const user = await this.userRepo.findById(storedToken.userId);
+    const user = await this.userRepo.findByUuid(storedToken.userId);
     if (!user) throw new Error('User not found');
 
     const newAccessToken = this.tokenService.generateAccessToken({
@@ -152,14 +154,13 @@ export class AuthService {
       expiresAt: newExpiresAt,
     } = this.tokenService.generateRefreshToken();
 
-    const newTokenEntity = new RefreshToken(
-      crypto.randomUUID(),
-      newHash,
-      user.id,
-      newExpiresAt,
-      new Date(),
-      false,
-    );
+    const newTokenEntity: RefreshToken = {
+      id: crypto.randomUUID(),
+      tokenHash: newHash,
+      userId: user.id,
+      expiresAt: newExpiresAt,
+      revoked: false,
+    };
     await this.refreshTokenRepo.save(newTokenEntity);
 
     return {

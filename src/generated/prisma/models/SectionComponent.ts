@@ -20,28 +20,50 @@ export type SectionComponentModel = runtime.Types.Result.DefaultSelection<Prisma
 
 export type AggregateSectionComponent = {
   _count: SectionComponentCountAggregateOutputType | null
+  _avg: SectionComponentAvgAggregateOutputType | null
+  _sum: SectionComponentSumAggregateOutputType | null
   _min: SectionComponentMinAggregateOutputType | null
   _max: SectionComponentMaxAggregateOutputType | null
 }
 
+export type SectionComponentAvgAggregateOutputType = {
+  id: number | null
+  sectionId: number | null
+  componentId: number | null
+  index: number | null
+}
+
+export type SectionComponentSumAggregateOutputType = {
+  id: number | null
+  sectionId: number | null
+  componentId: number | null
+  index: number | null
+}
+
 export type SectionComponentMinAggregateOutputType = {
-  id: string | null
-  sectionId: string | null
-  componentId: string | null
+  id: number | null
+  uuid: string | null
+  sectionId: number | null
+  componentId: number | null
+  index: number | null
   updatedAt: Date | null
 }
 
 export type SectionComponentMaxAggregateOutputType = {
-  id: string | null
-  sectionId: string | null
-  componentId: string | null
+  id: number | null
+  uuid: string | null
+  sectionId: number | null
+  componentId: number | null
+  index: number | null
   updatedAt: Date | null
 }
 
 export type SectionComponentCountAggregateOutputType = {
   id: number
+  uuid: number
   sectionId: number
   componentId: number
+  index: number
   componentData: number
   componentSettings: number
   updatedAt: number
@@ -49,24 +71,44 @@ export type SectionComponentCountAggregateOutputType = {
 }
 
 
-export type SectionComponentMinAggregateInputType = {
+export type SectionComponentAvgAggregateInputType = {
   id?: true
   sectionId?: true
   componentId?: true
+  index?: true
+}
+
+export type SectionComponentSumAggregateInputType = {
+  id?: true
+  sectionId?: true
+  componentId?: true
+  index?: true
+}
+
+export type SectionComponentMinAggregateInputType = {
+  id?: true
+  uuid?: true
+  sectionId?: true
+  componentId?: true
+  index?: true
   updatedAt?: true
 }
 
 export type SectionComponentMaxAggregateInputType = {
   id?: true
+  uuid?: true
   sectionId?: true
   componentId?: true
+  index?: true
   updatedAt?: true
 }
 
 export type SectionComponentCountAggregateInputType = {
   id?: true
+  uuid?: true
   sectionId?: true
   componentId?: true
+  index?: true
   componentData?: true
   componentSettings?: true
   updatedAt?: true
@@ -111,6 +153,18 @@ export type SectionComponentAggregateArgs<ExtArgs extends runtime.Types.Extensio
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: SectionComponentAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: SectionComponentSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: SectionComponentMinAggregateInputType
@@ -141,18 +195,24 @@ export type SectionComponentGroupByArgs<ExtArgs extends runtime.Types.Extensions
   take?: number
   skip?: number
   _count?: SectionComponentCountAggregateInputType | true
+  _avg?: SectionComponentAvgAggregateInputType
+  _sum?: SectionComponentSumAggregateInputType
   _min?: SectionComponentMinAggregateInputType
   _max?: SectionComponentMaxAggregateInputType
 }
 
 export type SectionComponentGroupByOutputType = {
-  id: string
-  sectionId: string
-  componentId: string
+  id: number
+  uuid: string
+  sectionId: number
+  componentId: number
+  index: number
   componentData: runtime.JsonValue
   componentSettings: runtime.JsonValue
   updatedAt: Date
   _count: SectionComponentCountAggregateOutputType | null
+  _avg: SectionComponentAvgAggregateOutputType | null
+  _sum: SectionComponentSumAggregateOutputType | null
   _min: SectionComponentMinAggregateOutputType | null
   _max: SectionComponentMaxAggregateOutputType | null
 }
@@ -176,9 +236,11 @@ export type SectionComponentWhereInput = {
   AND?: Prisma.SectionComponentWhereInput | Prisma.SectionComponentWhereInput[]
   OR?: Prisma.SectionComponentWhereInput[]
   NOT?: Prisma.SectionComponentWhereInput | Prisma.SectionComponentWhereInput[]
-  id?: Prisma.StringFilter<"SectionComponent"> | string
-  sectionId?: Prisma.StringFilter<"SectionComponent"> | string
-  componentId?: Prisma.StringFilter<"SectionComponent"> | string
+  id?: Prisma.IntFilter<"SectionComponent"> | number
+  uuid?: Prisma.StringFilter<"SectionComponent"> | string
+  sectionId?: Prisma.IntFilter<"SectionComponent"> | number
+  componentId?: Prisma.IntFilter<"SectionComponent"> | number
+  index?: Prisma.IntFilter<"SectionComponent"> | number
   componentData?: Prisma.JsonFilter<"SectionComponent">
   componentSettings?: Prisma.JsonFilter<"SectionComponent">
   updatedAt?: Prisma.DateTimeFilter<"SectionComponent"> | Date | string
@@ -188,8 +250,10 @@ export type SectionComponentWhereInput = {
 
 export type SectionComponentOrderByWithRelationInput = {
   id?: Prisma.SortOrder
+  uuid?: Prisma.SortOrder
   sectionId?: Prisma.SortOrder
   componentId?: Prisma.SortOrder
+  index?: Prisma.SortOrder
   componentData?: Prisma.SortOrder
   componentSettings?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -198,46 +262,54 @@ export type SectionComponentOrderByWithRelationInput = {
 }
 
 export type SectionComponentWhereUniqueInput = Prisma.AtLeast<{
-  id?: string
-  sectionId_componentId?: Prisma.SectionComponentSectionIdComponentIdCompoundUniqueInput
+  id?: number
+  uuid?: string
   AND?: Prisma.SectionComponentWhereInput | Prisma.SectionComponentWhereInput[]
   OR?: Prisma.SectionComponentWhereInput[]
   NOT?: Prisma.SectionComponentWhereInput | Prisma.SectionComponentWhereInput[]
-  sectionId?: Prisma.StringFilter<"SectionComponent"> | string
-  componentId?: Prisma.StringFilter<"SectionComponent"> | string
+  sectionId?: Prisma.IntFilter<"SectionComponent"> | number
+  componentId?: Prisma.IntFilter<"SectionComponent"> | number
+  index?: Prisma.IntFilter<"SectionComponent"> | number
   componentData?: Prisma.JsonFilter<"SectionComponent">
   componentSettings?: Prisma.JsonFilter<"SectionComponent">
   updatedAt?: Prisma.DateTimeFilter<"SectionComponent"> | Date | string
   section?: Prisma.XOR<Prisma.SectionScalarRelationFilter, Prisma.SectionWhereInput>
   component?: Prisma.XOR<Prisma.ComponentScalarRelationFilter, Prisma.ComponentWhereInput>
-}, "id" | "sectionId_componentId">
+}, "id" | "uuid">
 
 export type SectionComponentOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
+  uuid?: Prisma.SortOrder
   sectionId?: Prisma.SortOrder
   componentId?: Prisma.SortOrder
+  index?: Prisma.SortOrder
   componentData?: Prisma.SortOrder
   componentSettings?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.SectionComponentCountOrderByAggregateInput
+  _avg?: Prisma.SectionComponentAvgOrderByAggregateInput
   _max?: Prisma.SectionComponentMaxOrderByAggregateInput
   _min?: Prisma.SectionComponentMinOrderByAggregateInput
+  _sum?: Prisma.SectionComponentSumOrderByAggregateInput
 }
 
 export type SectionComponentScalarWhereWithAggregatesInput = {
   AND?: Prisma.SectionComponentScalarWhereWithAggregatesInput | Prisma.SectionComponentScalarWhereWithAggregatesInput[]
   OR?: Prisma.SectionComponentScalarWhereWithAggregatesInput[]
   NOT?: Prisma.SectionComponentScalarWhereWithAggregatesInput | Prisma.SectionComponentScalarWhereWithAggregatesInput[]
-  id?: Prisma.StringWithAggregatesFilter<"SectionComponent"> | string
-  sectionId?: Prisma.StringWithAggregatesFilter<"SectionComponent"> | string
-  componentId?: Prisma.StringWithAggregatesFilter<"SectionComponent"> | string
+  id?: Prisma.IntWithAggregatesFilter<"SectionComponent"> | number
+  uuid?: Prisma.StringWithAggregatesFilter<"SectionComponent"> | string
+  sectionId?: Prisma.IntWithAggregatesFilter<"SectionComponent"> | number
+  componentId?: Prisma.IntWithAggregatesFilter<"SectionComponent"> | number
+  index?: Prisma.IntWithAggregatesFilter<"SectionComponent"> | number
   componentData?: Prisma.JsonWithAggregatesFilter<"SectionComponent">
   componentSettings?: Prisma.JsonWithAggregatesFilter<"SectionComponent">
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"SectionComponent"> | Date | string
 }
 
 export type SectionComponentCreateInput = {
-  id?: string
+  uuid?: string
+  index?: number
   componentData: Prisma.JsonNullValueInput | runtime.InputJsonValue
   componentSettings: Prisma.JsonNullValueInput | runtime.InputJsonValue
   updatedAt?: Date | string
@@ -246,16 +318,19 @@ export type SectionComponentCreateInput = {
 }
 
 export type SectionComponentUncheckedCreateInput = {
-  id?: string
-  sectionId: string
-  componentId: string
+  id?: number
+  uuid?: string
+  sectionId: number
+  componentId: number
+  index?: number
   componentData: Prisma.JsonNullValueInput | runtime.InputJsonValue
   componentSettings: Prisma.JsonNullValueInput | runtime.InputJsonValue
   updatedAt?: Date | string
 }
 
 export type SectionComponentUpdateInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  uuid?: Prisma.StringFieldUpdateOperationsInput | string
+  index?: Prisma.IntFieldUpdateOperationsInput | number
   componentData?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   componentSettings?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -264,34 +339,41 @@ export type SectionComponentUpdateInput = {
 }
 
 export type SectionComponentUncheckedUpdateInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  sectionId?: Prisma.StringFieldUpdateOperationsInput | string
-  componentId?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  uuid?: Prisma.StringFieldUpdateOperationsInput | string
+  sectionId?: Prisma.IntFieldUpdateOperationsInput | number
+  componentId?: Prisma.IntFieldUpdateOperationsInput | number
+  index?: Prisma.IntFieldUpdateOperationsInput | number
   componentData?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   componentSettings?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type SectionComponentCreateManyInput = {
-  id?: string
-  sectionId: string
-  componentId: string
+  id?: number
+  uuid?: string
+  sectionId: number
+  componentId: number
+  index?: number
   componentData: Prisma.JsonNullValueInput | runtime.InputJsonValue
   componentSettings: Prisma.JsonNullValueInput | runtime.InputJsonValue
   updatedAt?: Date | string
 }
 
 export type SectionComponentUpdateManyMutationInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  uuid?: Prisma.StringFieldUpdateOperationsInput | string
+  index?: Prisma.IntFieldUpdateOperationsInput | number
   componentData?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   componentSettings?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type SectionComponentUncheckedUpdateManyInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  sectionId?: Prisma.StringFieldUpdateOperationsInput | string
-  componentId?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  uuid?: Prisma.StringFieldUpdateOperationsInput | string
+  sectionId?: Prisma.IntFieldUpdateOperationsInput | number
+  componentId?: Prisma.IntFieldUpdateOperationsInput | number
+  index?: Prisma.IntFieldUpdateOperationsInput | number
   componentData?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   componentSettings?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -307,32 +389,47 @@ export type SectionComponentOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type SectionComponentSectionIdComponentIdCompoundUniqueInput = {
-  sectionId: string
-  componentId: string
-}
-
 export type SectionComponentCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  uuid?: Prisma.SortOrder
   sectionId?: Prisma.SortOrder
   componentId?: Prisma.SortOrder
+  index?: Prisma.SortOrder
   componentData?: Prisma.SortOrder
   componentSettings?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
-export type SectionComponentMaxOrderByAggregateInput = {
+export type SectionComponentAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
   sectionId?: Prisma.SortOrder
   componentId?: Prisma.SortOrder
+  index?: Prisma.SortOrder
+}
+
+export type SectionComponentMaxOrderByAggregateInput = {
+  id?: Prisma.SortOrder
+  uuid?: Prisma.SortOrder
+  sectionId?: Prisma.SortOrder
+  componentId?: Prisma.SortOrder
+  index?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type SectionComponentMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  uuid?: Prisma.SortOrder
   sectionId?: Prisma.SortOrder
   componentId?: Prisma.SortOrder
+  index?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type SectionComponentSumOrderByAggregateInput = {
+  id?: Prisma.SortOrder
+  sectionId?: Prisma.SortOrder
+  componentId?: Prisma.SortOrder
+  index?: Prisma.SortOrder
 }
 
 export type SectionComponentCreateNestedManyWithoutSectionInput = {
@@ -420,7 +517,8 @@ export type SectionComponentUncheckedUpdateManyWithoutComponentNestedInput = {
 }
 
 export type SectionComponentCreateWithoutSectionInput = {
-  id?: string
+  uuid?: string
+  index?: number
   componentData: Prisma.JsonNullValueInput | runtime.InputJsonValue
   componentSettings: Prisma.JsonNullValueInput | runtime.InputJsonValue
   updatedAt?: Date | string
@@ -428,8 +526,10 @@ export type SectionComponentCreateWithoutSectionInput = {
 }
 
 export type SectionComponentUncheckedCreateWithoutSectionInput = {
-  id?: string
-  componentId: string
+  id?: number
+  uuid?: string
+  componentId: number
+  index?: number
   componentData: Prisma.JsonNullValueInput | runtime.InputJsonValue
   componentSettings: Prisma.JsonNullValueInput | runtime.InputJsonValue
   updatedAt?: Date | string
@@ -465,16 +565,19 @@ export type SectionComponentScalarWhereInput = {
   AND?: Prisma.SectionComponentScalarWhereInput | Prisma.SectionComponentScalarWhereInput[]
   OR?: Prisma.SectionComponentScalarWhereInput[]
   NOT?: Prisma.SectionComponentScalarWhereInput | Prisma.SectionComponentScalarWhereInput[]
-  id?: Prisma.StringFilter<"SectionComponent"> | string
-  sectionId?: Prisma.StringFilter<"SectionComponent"> | string
-  componentId?: Prisma.StringFilter<"SectionComponent"> | string
+  id?: Prisma.IntFilter<"SectionComponent"> | number
+  uuid?: Prisma.StringFilter<"SectionComponent"> | string
+  sectionId?: Prisma.IntFilter<"SectionComponent"> | number
+  componentId?: Prisma.IntFilter<"SectionComponent"> | number
+  index?: Prisma.IntFilter<"SectionComponent"> | number
   componentData?: Prisma.JsonFilter<"SectionComponent">
   componentSettings?: Prisma.JsonFilter<"SectionComponent">
   updatedAt?: Prisma.DateTimeFilter<"SectionComponent"> | Date | string
 }
 
 export type SectionComponentCreateWithoutComponentInput = {
-  id?: string
+  uuid?: string
+  index?: number
   componentData: Prisma.JsonNullValueInput | runtime.InputJsonValue
   componentSettings: Prisma.JsonNullValueInput | runtime.InputJsonValue
   updatedAt?: Date | string
@@ -482,8 +585,10 @@ export type SectionComponentCreateWithoutComponentInput = {
 }
 
 export type SectionComponentUncheckedCreateWithoutComponentInput = {
-  id?: string
-  sectionId: string
+  id?: number
+  uuid?: string
+  sectionId: number
+  index?: number
   componentData: Prisma.JsonNullValueInput | runtime.InputJsonValue
   componentSettings: Prisma.JsonNullValueInput | runtime.InputJsonValue
   updatedAt?: Date | string
@@ -516,15 +621,18 @@ export type SectionComponentUpdateManyWithWhereWithoutComponentInput = {
 }
 
 export type SectionComponentCreateManySectionInput = {
-  id?: string
-  componentId: string
+  id?: number
+  uuid?: string
+  componentId: number
+  index?: number
   componentData: Prisma.JsonNullValueInput | runtime.InputJsonValue
   componentSettings: Prisma.JsonNullValueInput | runtime.InputJsonValue
   updatedAt?: Date | string
 }
 
 export type SectionComponentUpdateWithoutSectionInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  uuid?: Prisma.StringFieldUpdateOperationsInput | string
+  index?: Prisma.IntFieldUpdateOperationsInput | number
   componentData?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   componentSettings?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -532,31 +640,38 @@ export type SectionComponentUpdateWithoutSectionInput = {
 }
 
 export type SectionComponentUncheckedUpdateWithoutSectionInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  componentId?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  uuid?: Prisma.StringFieldUpdateOperationsInput | string
+  componentId?: Prisma.IntFieldUpdateOperationsInput | number
+  index?: Prisma.IntFieldUpdateOperationsInput | number
   componentData?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   componentSettings?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type SectionComponentUncheckedUpdateManyWithoutSectionInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  componentId?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  uuid?: Prisma.StringFieldUpdateOperationsInput | string
+  componentId?: Prisma.IntFieldUpdateOperationsInput | number
+  index?: Prisma.IntFieldUpdateOperationsInput | number
   componentData?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   componentSettings?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type SectionComponentCreateManyComponentInput = {
-  id?: string
-  sectionId: string
+  id?: number
+  uuid?: string
+  sectionId: number
+  index?: number
   componentData: Prisma.JsonNullValueInput | runtime.InputJsonValue
   componentSettings: Prisma.JsonNullValueInput | runtime.InputJsonValue
   updatedAt?: Date | string
 }
 
 export type SectionComponentUpdateWithoutComponentInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  uuid?: Prisma.StringFieldUpdateOperationsInput | string
+  index?: Prisma.IntFieldUpdateOperationsInput | number
   componentData?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   componentSettings?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -564,16 +679,20 @@ export type SectionComponentUpdateWithoutComponentInput = {
 }
 
 export type SectionComponentUncheckedUpdateWithoutComponentInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  sectionId?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  uuid?: Prisma.StringFieldUpdateOperationsInput | string
+  sectionId?: Prisma.IntFieldUpdateOperationsInput | number
+  index?: Prisma.IntFieldUpdateOperationsInput | number
   componentData?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   componentSettings?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type SectionComponentUncheckedUpdateManyWithoutComponentInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  sectionId?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  uuid?: Prisma.StringFieldUpdateOperationsInput | string
+  sectionId?: Prisma.IntFieldUpdateOperationsInput | number
+  index?: Prisma.IntFieldUpdateOperationsInput | number
   componentData?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   componentSettings?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -583,8 +702,10 @@ export type SectionComponentUncheckedUpdateManyWithoutComponentInput = {
 
 export type SectionComponentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  uuid?: boolean
   sectionId?: boolean
   componentId?: boolean
+  index?: boolean
   componentData?: boolean
   componentSettings?: boolean
   updatedAt?: boolean
@@ -594,8 +715,10 @@ export type SectionComponentSelect<ExtArgs extends runtime.Types.Extensions.Inte
 
 export type SectionComponentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  uuid?: boolean
   sectionId?: boolean
   componentId?: boolean
+  index?: boolean
   componentData?: boolean
   componentSettings?: boolean
   updatedAt?: boolean
@@ -605,8 +728,10 @@ export type SectionComponentSelectCreateManyAndReturn<ExtArgs extends runtime.Ty
 
 export type SectionComponentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  uuid?: boolean
   sectionId?: boolean
   componentId?: boolean
+  index?: boolean
   componentData?: boolean
   componentSettings?: boolean
   updatedAt?: boolean
@@ -616,14 +741,16 @@ export type SectionComponentSelectUpdateManyAndReturn<ExtArgs extends runtime.Ty
 
 export type SectionComponentSelectScalar = {
   id?: boolean
+  uuid?: boolean
   sectionId?: boolean
   componentId?: boolean
+  index?: boolean
   componentData?: boolean
   componentSettings?: boolean
   updatedAt?: boolean
 }
 
-export type SectionComponentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "sectionId" | "componentId" | "componentData" | "componentSettings" | "updatedAt", ExtArgs["result"]["sectionComponent"]>
+export type SectionComponentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "uuid" | "sectionId" | "componentId" | "index" | "componentData" | "componentSettings" | "updatedAt", ExtArgs["result"]["sectionComponent"]>
 export type SectionComponentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   section?: boolean | Prisma.SectionDefaultArgs<ExtArgs>
   component?: boolean | Prisma.ComponentDefaultArgs<ExtArgs>
@@ -644,9 +771,11 @@ export type $SectionComponentPayload<ExtArgs extends runtime.Types.Extensions.In
     component: Prisma.$ComponentPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    id: string
-    sectionId: string
-    componentId: string
+    id: number
+    uuid: string
+    sectionId: number
+    componentId: number
+    index: number
     componentData: runtime.JsonValue
     componentSettings: runtime.JsonValue
     updatedAt: Date
@@ -1075,9 +1204,11 @@ export interface Prisma__SectionComponentClient<T, Null = never, ExtArgs extends
  * Fields of the SectionComponent model
  */
 export interface SectionComponentFieldRefs {
-  readonly id: Prisma.FieldRef<"SectionComponent", 'String'>
-  readonly sectionId: Prisma.FieldRef<"SectionComponent", 'String'>
-  readonly componentId: Prisma.FieldRef<"SectionComponent", 'String'>
+  readonly id: Prisma.FieldRef<"SectionComponent", 'Int'>
+  readonly uuid: Prisma.FieldRef<"SectionComponent", 'String'>
+  readonly sectionId: Prisma.FieldRef<"SectionComponent", 'Int'>
+  readonly componentId: Prisma.FieldRef<"SectionComponent", 'Int'>
+  readonly index: Prisma.FieldRef<"SectionComponent", 'Int'>
   readonly componentData: Prisma.FieldRef<"SectionComponent", 'Json'>
   readonly componentSettings: Prisma.FieldRef<"SectionComponent", 'Json'>
   readonly updatedAt: Prisma.FieldRef<"SectionComponent", 'DateTime'>

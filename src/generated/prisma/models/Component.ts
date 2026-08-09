@@ -27,42 +27,46 @@ export type AggregateComponent = {
 }
 
 export type ComponentAvgAggregateOutputType = {
+  id: number | null
   index: number | null
+  parentId: number | null
 }
 
 export type ComponentSumAggregateOutputType = {
+  id: number | null
   index: number | null
+  parentId: number | null
 }
 
 export type ComponentMinAggregateOutputType = {
-  id: string | null
+  id: number | null
+  uuid: string | null
   nameEN: string | null
   nameAR: string | null
   index: number | null
-  parentId: string | null
-  createdBy: string | null
+  parentId: number | null
   createdAt: Date | null
   updatedAt: Date | null
 }
 
 export type ComponentMaxAggregateOutputType = {
-  id: string | null
+  id: number | null
+  uuid: string | null
   nameEN: string | null
   nameAR: string | null
   index: number | null
-  parentId: string | null
-  createdBy: string | null
+  parentId: number | null
   createdAt: Date | null
   updatedAt: Date | null
 }
 
 export type ComponentCountAggregateOutputType = {
   id: number
+  uuid: number
   nameEN: number
   nameAR: number
   index: number
   parentId: number
-  createdBy: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -70,42 +74,46 @@ export type ComponentCountAggregateOutputType = {
 
 
 export type ComponentAvgAggregateInputType = {
+  id?: true
   index?: true
+  parentId?: true
 }
 
 export type ComponentSumAggregateInputType = {
+  id?: true
   index?: true
+  parentId?: true
 }
 
 export type ComponentMinAggregateInputType = {
   id?: true
+  uuid?: true
   nameEN?: true
   nameAR?: true
   index?: true
   parentId?: true
-  createdBy?: true
   createdAt?: true
   updatedAt?: true
 }
 
 export type ComponentMaxAggregateInputType = {
   id?: true
+  uuid?: true
   nameEN?: true
   nameAR?: true
   index?: true
   parentId?: true
-  createdBy?: true
   createdAt?: true
   updatedAt?: true
 }
 
 export type ComponentCountAggregateInputType = {
   id?: true
+  uuid?: true
   nameEN?: true
   nameAR?: true
   index?: true
   parentId?: true
-  createdBy?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -198,12 +206,12 @@ export type ComponentGroupByArgs<ExtArgs extends runtime.Types.Extensions.Intern
 }
 
 export type ComponentGroupByOutputType = {
-  id: string
+  id: number
+  uuid: string
   nameEN: string
   nameAR: string
   index: number
-  parentId: string | null
-  createdBy: string
+  parentId: number | null
   createdAt: Date
   updatedAt: Date | null
   _count: ComponentCountAggregateOutputType | null
@@ -232,12 +240,12 @@ export type ComponentWhereInput = {
   AND?: Prisma.ComponentWhereInput | Prisma.ComponentWhereInput[]
   OR?: Prisma.ComponentWhereInput[]
   NOT?: Prisma.ComponentWhereInput | Prisma.ComponentWhereInput[]
-  id?: Prisma.StringFilter<"Component"> | string
+  id?: Prisma.IntFilter<"Component"> | number
+  uuid?: Prisma.StringFilter<"Component"> | string
   nameEN?: Prisma.StringFilter<"Component"> | string
   nameAR?: Prisma.StringFilter<"Component"> | string
   index?: Prisma.IntFilter<"Component"> | number
-  parentId?: Prisma.StringNullableFilter<"Component"> | string | null
-  createdBy?: Prisma.StringFilter<"Component"> | string
+  parentId?: Prisma.IntNullableFilter<"Component"> | number | null
   createdAt?: Prisma.DateTimeFilter<"Component"> | Date | string
   updatedAt?: Prisma.DateTimeNullableFilter<"Component"> | Date | string | null
   parent?: Prisma.XOR<Prisma.ComponentNullableScalarRelationFilter, Prisma.ComponentWhereInput> | null
@@ -247,11 +255,11 @@ export type ComponentWhereInput = {
 
 export type ComponentOrderByWithRelationInput = {
   id?: Prisma.SortOrder
+  uuid?: Prisma.SortOrder
   nameEN?: Prisma.SortOrder
   nameAR?: Prisma.SortOrder
   index?: Prisma.SortOrder
   parentId?: Prisma.SortOrderInput | Prisma.SortOrder
-  createdBy?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   parent?: Prisma.ComponentOrderByWithRelationInput
@@ -260,29 +268,29 @@ export type ComponentOrderByWithRelationInput = {
 }
 
 export type ComponentWhereUniqueInput = Prisma.AtLeast<{
-  id?: string
+  id?: number
+  uuid?: string
   AND?: Prisma.ComponentWhereInput | Prisma.ComponentWhereInput[]
   OR?: Prisma.ComponentWhereInput[]
   NOT?: Prisma.ComponentWhereInput | Prisma.ComponentWhereInput[]
   nameEN?: Prisma.StringFilter<"Component"> | string
   nameAR?: Prisma.StringFilter<"Component"> | string
   index?: Prisma.IntFilter<"Component"> | number
-  parentId?: Prisma.StringNullableFilter<"Component"> | string | null
-  createdBy?: Prisma.StringFilter<"Component"> | string
+  parentId?: Prisma.IntNullableFilter<"Component"> | number | null
   createdAt?: Prisma.DateTimeFilter<"Component"> | Date | string
   updatedAt?: Prisma.DateTimeNullableFilter<"Component"> | Date | string | null
   parent?: Prisma.XOR<Prisma.ComponentNullableScalarRelationFilter, Prisma.ComponentWhereInput> | null
   children?: Prisma.ComponentListRelationFilter
   sectionComponents?: Prisma.SectionComponentListRelationFilter
-}, "id">
+}, "id" | "uuid">
 
 export type ComponentOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
+  uuid?: Prisma.SortOrder
   nameEN?: Prisma.SortOrder
   nameAR?: Prisma.SortOrder
   index?: Prisma.SortOrder
   parentId?: Prisma.SortOrderInput | Prisma.SortOrder
-  createdBy?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.ComponentCountOrderByAggregateInput
@@ -296,22 +304,21 @@ export type ComponentScalarWhereWithAggregatesInput = {
   AND?: Prisma.ComponentScalarWhereWithAggregatesInput | Prisma.ComponentScalarWhereWithAggregatesInput[]
   OR?: Prisma.ComponentScalarWhereWithAggregatesInput[]
   NOT?: Prisma.ComponentScalarWhereWithAggregatesInput | Prisma.ComponentScalarWhereWithAggregatesInput[]
-  id?: Prisma.StringWithAggregatesFilter<"Component"> | string
+  id?: Prisma.IntWithAggregatesFilter<"Component"> | number
+  uuid?: Prisma.StringWithAggregatesFilter<"Component"> | string
   nameEN?: Prisma.StringWithAggregatesFilter<"Component"> | string
   nameAR?: Prisma.StringWithAggregatesFilter<"Component"> | string
   index?: Prisma.IntWithAggregatesFilter<"Component"> | number
-  parentId?: Prisma.StringNullableWithAggregatesFilter<"Component"> | string | null
-  createdBy?: Prisma.StringWithAggregatesFilter<"Component"> | string
+  parentId?: Prisma.IntNullableWithAggregatesFilter<"Component"> | number | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Component"> | Date | string
   updatedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Component"> | Date | string | null
 }
 
 export type ComponentCreateInput = {
-  id?: string
+  uuid?: string
   nameEN: string
   nameAR: string
   index?: number
-  createdBy: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
   parent?: Prisma.ComponentCreateNestedOneWithoutChildrenInput
@@ -320,12 +327,12 @@ export type ComponentCreateInput = {
 }
 
 export type ComponentUncheckedCreateInput = {
-  id?: string
+  id?: number
+  uuid?: string
   nameEN: string
   nameAR: string
   index?: number
-  parentId?: string | null
-  createdBy: string
+  parentId?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string | null
   children?: Prisma.ComponentUncheckedCreateNestedManyWithoutParentInput
@@ -333,11 +340,10 @@ export type ComponentUncheckedCreateInput = {
 }
 
 export type ComponentUpdateInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  uuid?: Prisma.StringFieldUpdateOperationsInput | string
   nameEN?: Prisma.StringFieldUpdateOperationsInput | string
   nameAR?: Prisma.StringFieldUpdateOperationsInput | string
   index?: Prisma.IntFieldUpdateOperationsInput | number
-  createdBy?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   parent?: Prisma.ComponentUpdateOneWithoutChildrenNestedInput
@@ -346,12 +352,12 @@ export type ComponentUpdateInput = {
 }
 
 export type ComponentUncheckedUpdateInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  uuid?: Prisma.StringFieldUpdateOperationsInput | string
   nameEN?: Prisma.StringFieldUpdateOperationsInput | string
   nameAR?: Prisma.StringFieldUpdateOperationsInput | string
   index?: Prisma.IntFieldUpdateOperationsInput | number
-  parentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  parentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   children?: Prisma.ComponentUncheckedUpdateManyWithoutParentNestedInput
@@ -359,33 +365,32 @@ export type ComponentUncheckedUpdateInput = {
 }
 
 export type ComponentCreateManyInput = {
-  id?: string
+  id?: number
+  uuid?: string
   nameEN: string
   nameAR: string
   index?: number
-  parentId?: string | null
-  createdBy: string
+  parentId?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string | null
 }
 
 export type ComponentUpdateManyMutationInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  uuid?: Prisma.StringFieldUpdateOperationsInput | string
   nameEN?: Prisma.StringFieldUpdateOperationsInput | string
   nameAR?: Prisma.StringFieldUpdateOperationsInput | string
   index?: Prisma.IntFieldUpdateOperationsInput | number
-  createdBy?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type ComponentUncheckedUpdateManyInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  uuid?: Prisma.StringFieldUpdateOperationsInput | string
   nameEN?: Prisma.StringFieldUpdateOperationsInput | string
   nameAR?: Prisma.StringFieldUpdateOperationsInput | string
   index?: Prisma.IntFieldUpdateOperationsInput | number
-  parentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  parentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -407,43 +412,47 @@ export type ComponentOrderByRelationAggregateInput = {
 
 export type ComponentCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  uuid?: Prisma.SortOrder
   nameEN?: Prisma.SortOrder
   nameAR?: Prisma.SortOrder
   index?: Prisma.SortOrder
   parentId?: Prisma.SortOrder
-  createdBy?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type ComponentAvgOrderByAggregateInput = {
+  id?: Prisma.SortOrder
   index?: Prisma.SortOrder
+  parentId?: Prisma.SortOrder
 }
 
 export type ComponentMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  uuid?: Prisma.SortOrder
   nameEN?: Prisma.SortOrder
   nameAR?: Prisma.SortOrder
   index?: Prisma.SortOrder
   parentId?: Prisma.SortOrder
-  createdBy?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type ComponentMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  uuid?: Prisma.SortOrder
   nameEN?: Prisma.SortOrder
   nameAR?: Prisma.SortOrder
   index?: Prisma.SortOrder
   parentId?: Prisma.SortOrder
-  createdBy?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type ComponentSumOrderByAggregateInput = {
+  id?: Prisma.SortOrder
   index?: Prisma.SortOrder
+  parentId?: Prisma.SortOrder
 }
 
 export type ComponentScalarRelationFilter = {
@@ -495,8 +504,12 @@ export type ComponentUpdateManyWithoutParentNestedInput = {
   deleteMany?: Prisma.ComponentScalarWhereInput | Prisma.ComponentScalarWhereInput[]
 }
 
-export type NullableStringFieldUpdateOperationsInput = {
-  set?: string | null
+export type NullableIntFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
 }
 
 export type ComponentUncheckedUpdateManyWithoutParentNestedInput = {
@@ -528,11 +541,10 @@ export type ComponentUpdateOneRequiredWithoutSectionComponentsNestedInput = {
 }
 
 export type ComponentCreateWithoutChildrenInput = {
-  id?: string
+  uuid?: string
   nameEN: string
   nameAR: string
   index?: number
-  createdBy: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
   parent?: Prisma.ComponentCreateNestedOneWithoutChildrenInput
@@ -540,12 +552,12 @@ export type ComponentCreateWithoutChildrenInput = {
 }
 
 export type ComponentUncheckedCreateWithoutChildrenInput = {
-  id?: string
+  id?: number
+  uuid?: string
   nameEN: string
   nameAR: string
   index?: number
-  parentId?: string | null
-  createdBy: string
+  parentId?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string | null
   sectionComponents?: Prisma.SectionComponentUncheckedCreateNestedManyWithoutComponentInput
@@ -557,11 +569,10 @@ export type ComponentCreateOrConnectWithoutChildrenInput = {
 }
 
 export type ComponentCreateWithoutParentInput = {
-  id?: string
+  uuid?: string
   nameEN: string
   nameAR: string
   index?: number
-  createdBy: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
   children?: Prisma.ComponentCreateNestedManyWithoutParentInput
@@ -569,11 +580,11 @@ export type ComponentCreateWithoutParentInput = {
 }
 
 export type ComponentUncheckedCreateWithoutParentInput = {
-  id?: string
+  id?: number
+  uuid?: string
   nameEN: string
   nameAR: string
   index?: number
-  createdBy: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
   children?: Prisma.ComponentUncheckedCreateNestedManyWithoutParentInput
@@ -602,11 +613,10 @@ export type ComponentUpdateToOneWithWhereWithoutChildrenInput = {
 }
 
 export type ComponentUpdateWithoutChildrenInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  uuid?: Prisma.StringFieldUpdateOperationsInput | string
   nameEN?: Prisma.StringFieldUpdateOperationsInput | string
   nameAR?: Prisma.StringFieldUpdateOperationsInput | string
   index?: Prisma.IntFieldUpdateOperationsInput | number
-  createdBy?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   parent?: Prisma.ComponentUpdateOneWithoutChildrenNestedInput
@@ -614,12 +624,12 @@ export type ComponentUpdateWithoutChildrenInput = {
 }
 
 export type ComponentUncheckedUpdateWithoutChildrenInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  uuid?: Prisma.StringFieldUpdateOperationsInput | string
   nameEN?: Prisma.StringFieldUpdateOperationsInput | string
   nameAR?: Prisma.StringFieldUpdateOperationsInput | string
   index?: Prisma.IntFieldUpdateOperationsInput | number
-  parentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  parentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   sectionComponents?: Prisma.SectionComponentUncheckedUpdateManyWithoutComponentNestedInput
@@ -645,22 +655,21 @@ export type ComponentScalarWhereInput = {
   AND?: Prisma.ComponentScalarWhereInput | Prisma.ComponentScalarWhereInput[]
   OR?: Prisma.ComponentScalarWhereInput[]
   NOT?: Prisma.ComponentScalarWhereInput | Prisma.ComponentScalarWhereInput[]
-  id?: Prisma.StringFilter<"Component"> | string
+  id?: Prisma.IntFilter<"Component"> | number
+  uuid?: Prisma.StringFilter<"Component"> | string
   nameEN?: Prisma.StringFilter<"Component"> | string
   nameAR?: Prisma.StringFilter<"Component"> | string
   index?: Prisma.IntFilter<"Component"> | number
-  parentId?: Prisma.StringNullableFilter<"Component"> | string | null
-  createdBy?: Prisma.StringFilter<"Component"> | string
+  parentId?: Prisma.IntNullableFilter<"Component"> | number | null
   createdAt?: Prisma.DateTimeFilter<"Component"> | Date | string
   updatedAt?: Prisma.DateTimeNullableFilter<"Component"> | Date | string | null
 }
 
 export type ComponentCreateWithoutSectionComponentsInput = {
-  id?: string
+  uuid?: string
   nameEN: string
   nameAR: string
   index?: number
-  createdBy: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
   parent?: Prisma.ComponentCreateNestedOneWithoutChildrenInput
@@ -668,12 +677,12 @@ export type ComponentCreateWithoutSectionComponentsInput = {
 }
 
 export type ComponentUncheckedCreateWithoutSectionComponentsInput = {
-  id?: string
+  id?: number
+  uuid?: string
   nameEN: string
   nameAR: string
   index?: number
-  parentId?: string | null
-  createdBy: string
+  parentId?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string | null
   children?: Prisma.ComponentUncheckedCreateNestedManyWithoutParentInput
@@ -696,11 +705,10 @@ export type ComponentUpdateToOneWithWhereWithoutSectionComponentsInput = {
 }
 
 export type ComponentUpdateWithoutSectionComponentsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  uuid?: Prisma.StringFieldUpdateOperationsInput | string
   nameEN?: Prisma.StringFieldUpdateOperationsInput | string
   nameAR?: Prisma.StringFieldUpdateOperationsInput | string
   index?: Prisma.IntFieldUpdateOperationsInput | number
-  createdBy?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   parent?: Prisma.ComponentUpdateOneWithoutChildrenNestedInput
@@ -708,33 +716,32 @@ export type ComponentUpdateWithoutSectionComponentsInput = {
 }
 
 export type ComponentUncheckedUpdateWithoutSectionComponentsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  uuid?: Prisma.StringFieldUpdateOperationsInput | string
   nameEN?: Prisma.StringFieldUpdateOperationsInput | string
   nameAR?: Prisma.StringFieldUpdateOperationsInput | string
   index?: Prisma.IntFieldUpdateOperationsInput | number
-  parentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  parentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   children?: Prisma.ComponentUncheckedUpdateManyWithoutParentNestedInput
 }
 
 export type ComponentCreateManyParentInput = {
-  id?: string
+  id?: number
+  uuid?: string
   nameEN: string
   nameAR: string
   index?: number
-  createdBy: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
 }
 
 export type ComponentUpdateWithoutParentInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  uuid?: Prisma.StringFieldUpdateOperationsInput | string
   nameEN?: Prisma.StringFieldUpdateOperationsInput | string
   nameAR?: Prisma.StringFieldUpdateOperationsInput | string
   index?: Prisma.IntFieldUpdateOperationsInput | number
-  createdBy?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   children?: Prisma.ComponentUpdateManyWithoutParentNestedInput
@@ -742,11 +749,11 @@ export type ComponentUpdateWithoutParentInput = {
 }
 
 export type ComponentUncheckedUpdateWithoutParentInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  uuid?: Prisma.StringFieldUpdateOperationsInput | string
   nameEN?: Prisma.StringFieldUpdateOperationsInput | string
   nameAR?: Prisma.StringFieldUpdateOperationsInput | string
   index?: Prisma.IntFieldUpdateOperationsInput | number
-  createdBy?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   children?: Prisma.ComponentUncheckedUpdateManyWithoutParentNestedInput
@@ -754,11 +761,11 @@ export type ComponentUncheckedUpdateWithoutParentInput = {
 }
 
 export type ComponentUncheckedUpdateManyWithoutParentInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  uuid?: Prisma.StringFieldUpdateOperationsInput | string
   nameEN?: Prisma.StringFieldUpdateOperationsInput | string
   nameAR?: Prisma.StringFieldUpdateOperationsInput | string
   index?: Prisma.IntFieldUpdateOperationsInput | number
-  createdBy?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -805,11 +812,11 @@ export type ComponentCountOutputTypeCountSectionComponentsArgs<ExtArgs extends r
 
 export type ComponentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  uuid?: boolean
   nameEN?: boolean
   nameAR?: boolean
   index?: boolean
   parentId?: boolean
-  createdBy?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   parent?: boolean | Prisma.Component$parentArgs<ExtArgs>
@@ -820,11 +827,11 @@ export type ComponentSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
 
 export type ComponentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  uuid?: boolean
   nameEN?: boolean
   nameAR?: boolean
   index?: boolean
   parentId?: boolean
-  createdBy?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   parent?: boolean | Prisma.Component$parentArgs<ExtArgs>
@@ -832,11 +839,11 @@ export type ComponentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
 
 export type ComponentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  uuid?: boolean
   nameEN?: boolean
   nameAR?: boolean
   index?: boolean
   parentId?: boolean
-  createdBy?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   parent?: boolean | Prisma.Component$parentArgs<ExtArgs>
@@ -844,16 +851,16 @@ export type ComponentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
 
 export type ComponentSelectScalar = {
   id?: boolean
+  uuid?: boolean
   nameEN?: boolean
   nameAR?: boolean
   index?: boolean
   parentId?: boolean
-  createdBy?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type ComponentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "nameEN" | "nameAR" | "index" | "parentId" | "createdBy" | "createdAt" | "updatedAt", ExtArgs["result"]["component"]>
+export type ComponentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "uuid" | "nameEN" | "nameAR" | "index" | "parentId" | "createdAt" | "updatedAt", ExtArgs["result"]["component"]>
 export type ComponentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   parent?: boolean | Prisma.Component$parentArgs<ExtArgs>
   children?: boolean | Prisma.Component$childrenArgs<ExtArgs>
@@ -875,12 +882,12 @@ export type $ComponentPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     sectionComponents: Prisma.$SectionComponentPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    id: string
+    id: number
+    uuid: string
     nameEN: string
     nameAR: string
     index: number
-    parentId: string | null
-    createdBy: string
+    parentId: number | null
     createdAt: Date
     updatedAt: Date | null
   }, ExtArgs["result"]["component"]>
@@ -1309,12 +1316,12 @@ export interface Prisma__ComponentClient<T, Null = never, ExtArgs extends runtim
  * Fields of the Component model
  */
 export interface ComponentFieldRefs {
-  readonly id: Prisma.FieldRef<"Component", 'String'>
+  readonly id: Prisma.FieldRef<"Component", 'Int'>
+  readonly uuid: Prisma.FieldRef<"Component", 'String'>
   readonly nameEN: Prisma.FieldRef<"Component", 'String'>
   readonly nameAR: Prisma.FieldRef<"Component", 'String'>
   readonly index: Prisma.FieldRef<"Component", 'Int'>
-  readonly parentId: Prisma.FieldRef<"Component", 'String'>
-  readonly createdBy: Prisma.FieldRef<"Component", 'String'>
+  readonly parentId: Prisma.FieldRef<"Component", 'Int'>
   readonly createdAt: Prisma.FieldRef<"Component", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Component", 'DateTime'>
 }

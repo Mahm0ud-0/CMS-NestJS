@@ -1,15 +1,14 @@
 import { Module } from '@nestjs/common';
 import { PrismaModule } from '../core/database/prisma/prisma.module';
-import {
-  IRefreshTokenRepository,
-  IUserRepository,
-} from './domain/auth.repository.interface';
+import { IRefreshTokenRepository, IUserRepository } from './domain/auth.types';
 import { UserPrismaRepository } from './infrastructure/user.prisma.repository';
 import { RefreshTokenPrismaRepository } from './infrastructure/refreshToken.prisma.repository';
 import {
+  I_Password_Hasher,
+  I_Token_Service,
   IPasswordHasher,
   ITokenService,
-} from './application/services.abstract';
+} from './application/services.interface';
 import { JwtTokenService } from './infrastructure/jwtToken.service';
 import { BcryptPasswordHasher } from './infrastructure/bcrypt.service';
 import { JwtModule } from '@nestjs/jwt';
@@ -46,8 +45,8 @@ import { JwtAuthGuard } from './presentation/gaurds/auth.guard';
       provide: IRefreshTokenRepository,
       useClass: RefreshTokenPrismaRepository,
     },
-    { provide: ITokenService, useClass: JwtTokenService },
-    { provide: IPasswordHasher, useClass: BcryptPasswordHasher },
+    { provide: I_Token_Service, useClass: JwtTokenService },
+    { provide: I_Password_Hasher, useClass: BcryptPasswordHasher },
 
     AuthService,
   ],

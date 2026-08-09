@@ -27,42 +27,44 @@ export type AggregatePage = {
 }
 
 export type PageAvgAggregateOutputType = {
+  id: number | null
   index: number | null
 }
 
 export type PageSumAggregateOutputType = {
+  id: number | null
   index: number | null
 }
 
 export type PageMinAggregateOutputType = {
-  id: string | null
+  id: number | null
+  uuid: string | null
   nameEN: string | null
   nameAR: string | null
   isVisible: boolean | null
   index: number | null
-  createdById: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
 
 export type PageMaxAggregateOutputType = {
-  id: string | null
+  id: number | null
+  uuid: string | null
   nameEN: string | null
   nameAR: string | null
   isVisible: boolean | null
   index: number | null
-  createdById: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
 
 export type PageCountAggregateOutputType = {
   id: number
+  uuid: number
   nameEN: number
   nameAR: number
   isVisible: number
   index: number
-  createdById: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -70,42 +72,44 @@ export type PageCountAggregateOutputType = {
 
 
 export type PageAvgAggregateInputType = {
+  id?: true
   index?: true
 }
 
 export type PageSumAggregateInputType = {
+  id?: true
   index?: true
 }
 
 export type PageMinAggregateInputType = {
   id?: true
+  uuid?: true
   nameEN?: true
   nameAR?: true
   isVisible?: true
   index?: true
-  createdById?: true
   createdAt?: true
   updatedAt?: true
 }
 
 export type PageMaxAggregateInputType = {
   id?: true
+  uuid?: true
   nameEN?: true
   nameAR?: true
   isVisible?: true
   index?: true
-  createdById?: true
   createdAt?: true
   updatedAt?: true
 }
 
 export type PageCountAggregateInputType = {
   id?: true
+  uuid?: true
   nameEN?: true
   nameAR?: true
   isVisible?: true
   index?: true
-  createdById?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -198,12 +202,12 @@ export type PageGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
 }
 
 export type PageGroupByOutputType = {
-  id: string
+  id: number
+  uuid: string
   nameEN: string
   nameAR: string
   isVisible: boolean
   index: number
-  createdById: string
   createdAt: Date
   updatedAt: Date | null
   _count: PageCountAggregateOutputType | null
@@ -232,33 +236,32 @@ export type PageWhereInput = {
   AND?: Prisma.PageWhereInput | Prisma.PageWhereInput[]
   OR?: Prisma.PageWhereInput[]
   NOT?: Prisma.PageWhereInput | Prisma.PageWhereInput[]
-  id?: Prisma.StringFilter<"Page"> | string
+  id?: Prisma.IntFilter<"Page"> | number
+  uuid?: Prisma.StringFilter<"Page"> | string
   nameEN?: Prisma.StringFilter<"Page"> | string
   nameAR?: Prisma.StringFilter<"Page"> | string
   isVisible?: Prisma.BoolFilter<"Page"> | boolean
   index?: Prisma.IntFilter<"Page"> | number
-  createdById?: Prisma.StringFilter<"Page"> | string
   createdAt?: Prisma.DateTimeFilter<"Page"> | Date | string
   updatedAt?: Prisma.DateTimeNullableFilter<"Page"> | Date | string | null
-  createdBy?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   sections?: Prisma.SectionListRelationFilter
 }
 
 export type PageOrderByWithRelationInput = {
   id?: Prisma.SortOrder
+  uuid?: Prisma.SortOrder
   nameEN?: Prisma.SortOrder
   nameAR?: Prisma.SortOrder
   isVisible?: Prisma.SortOrder
   index?: Prisma.SortOrder
-  createdById?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  createdBy?: Prisma.UserOrderByWithRelationInput
   sections?: Prisma.SectionOrderByRelationAggregateInput
 }
 
 export type PageWhereUniqueInput = Prisma.AtLeast<{
-  id?: string
+  id?: number
+  uuid?: string
   AND?: Prisma.PageWhereInput | Prisma.PageWhereInput[]
   OR?: Prisma.PageWhereInput[]
   NOT?: Prisma.PageWhereInput | Prisma.PageWhereInput[]
@@ -266,20 +269,18 @@ export type PageWhereUniqueInput = Prisma.AtLeast<{
   nameAR?: Prisma.StringFilter<"Page"> | string
   isVisible?: Prisma.BoolFilter<"Page"> | boolean
   index?: Prisma.IntFilter<"Page"> | number
-  createdById?: Prisma.StringFilter<"Page"> | string
   createdAt?: Prisma.DateTimeFilter<"Page"> | Date | string
   updatedAt?: Prisma.DateTimeNullableFilter<"Page"> | Date | string | null
-  createdBy?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   sections?: Prisma.SectionListRelationFilter
-}, "id">
+}, "id" | "uuid">
 
 export type PageOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
+  uuid?: Prisma.SortOrder
   nameEN?: Prisma.SortOrder
   nameAR?: Prisma.SortOrder
   isVisible?: Prisma.SortOrder
   index?: Prisma.SortOrder
-  createdById?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.PageCountOrderByAggregateInput
@@ -293,77 +294,75 @@ export type PageScalarWhereWithAggregatesInput = {
   AND?: Prisma.PageScalarWhereWithAggregatesInput | Prisma.PageScalarWhereWithAggregatesInput[]
   OR?: Prisma.PageScalarWhereWithAggregatesInput[]
   NOT?: Prisma.PageScalarWhereWithAggregatesInput | Prisma.PageScalarWhereWithAggregatesInput[]
-  id?: Prisma.StringWithAggregatesFilter<"Page"> | string
+  id?: Prisma.IntWithAggregatesFilter<"Page"> | number
+  uuid?: Prisma.StringWithAggregatesFilter<"Page"> | string
   nameEN?: Prisma.StringWithAggregatesFilter<"Page"> | string
   nameAR?: Prisma.StringWithAggregatesFilter<"Page"> | string
   isVisible?: Prisma.BoolWithAggregatesFilter<"Page"> | boolean
   index?: Prisma.IntWithAggregatesFilter<"Page"> | number
-  createdById?: Prisma.StringWithAggregatesFilter<"Page"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Page"> | Date | string
   updatedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Page"> | Date | string | null
 }
 
 export type PageCreateInput = {
-  id?: string
+  uuid?: string
   nameEN: string
   nameAR: string
   isVisible?: boolean
   index?: number
   createdAt?: Date | string
   updatedAt?: Date | string | null
-  createdBy: Prisma.UserCreateNestedOneWithoutPagesInput
   sections?: Prisma.SectionCreateNestedManyWithoutPageInput
 }
 
 export type PageUncheckedCreateInput = {
-  id?: string
+  id?: number
+  uuid?: string
   nameEN: string
   nameAR: string
   isVisible?: boolean
   index?: number
-  createdById: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
   sections?: Prisma.SectionUncheckedCreateNestedManyWithoutPageInput
 }
 
 export type PageUpdateInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  uuid?: Prisma.StringFieldUpdateOperationsInput | string
   nameEN?: Prisma.StringFieldUpdateOperationsInput | string
   nameAR?: Prisma.StringFieldUpdateOperationsInput | string
   isVisible?: Prisma.BoolFieldUpdateOperationsInput | boolean
   index?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdBy?: Prisma.UserUpdateOneRequiredWithoutPagesNestedInput
   sections?: Prisma.SectionUpdateManyWithoutPageNestedInput
 }
 
 export type PageUncheckedUpdateInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  uuid?: Prisma.StringFieldUpdateOperationsInput | string
   nameEN?: Prisma.StringFieldUpdateOperationsInput | string
   nameAR?: Prisma.StringFieldUpdateOperationsInput | string
   isVisible?: Prisma.BoolFieldUpdateOperationsInput | boolean
   index?: Prisma.IntFieldUpdateOperationsInput | number
-  createdById?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   sections?: Prisma.SectionUncheckedUpdateManyWithoutPageNestedInput
 }
 
 export type PageCreateManyInput = {
-  id?: string
+  id?: number
+  uuid?: string
   nameEN: string
   nameAR: string
   isVisible?: boolean
   index?: number
-  createdById: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
 }
 
 export type PageUpdateManyMutationInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  uuid?: Prisma.StringFieldUpdateOperationsInput | string
   nameEN?: Prisma.StringFieldUpdateOperationsInput | string
   nameAR?: Prisma.StringFieldUpdateOperationsInput | string
   isVisible?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -373,64 +372,56 @@ export type PageUpdateManyMutationInput = {
 }
 
 export type PageUncheckedUpdateManyInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  uuid?: Prisma.StringFieldUpdateOperationsInput | string
   nameEN?: Prisma.StringFieldUpdateOperationsInput | string
   nameAR?: Prisma.StringFieldUpdateOperationsInput | string
   isVisible?: Prisma.BoolFieldUpdateOperationsInput | boolean
   index?: Prisma.IntFieldUpdateOperationsInput | number
-  createdById?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
-export type PageListRelationFilter = {
-  every?: Prisma.PageWhereInput
-  some?: Prisma.PageWhereInput
-  none?: Prisma.PageWhereInput
-}
-
-export type PageOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
-}
-
 export type PageCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  uuid?: Prisma.SortOrder
   nameEN?: Prisma.SortOrder
   nameAR?: Prisma.SortOrder
   isVisible?: Prisma.SortOrder
   index?: Prisma.SortOrder
-  createdById?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type PageAvgOrderByAggregateInput = {
+  id?: Prisma.SortOrder
   index?: Prisma.SortOrder
 }
 
 export type PageMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  uuid?: Prisma.SortOrder
   nameEN?: Prisma.SortOrder
   nameAR?: Prisma.SortOrder
   isVisible?: Prisma.SortOrder
   index?: Prisma.SortOrder
-  createdById?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type PageMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  uuid?: Prisma.SortOrder
   nameEN?: Prisma.SortOrder
   nameAR?: Prisma.SortOrder
   isVisible?: Prisma.SortOrder
   index?: Prisma.SortOrder
-  createdById?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type PageSumOrderByAggregateInput = {
+  id?: Prisma.SortOrder
   index?: Prisma.SortOrder
 }
 
@@ -439,58 +430,8 @@ export type PageScalarRelationFilter = {
   isNot?: Prisma.PageWhereInput
 }
 
-export type PageCreateNestedManyWithoutCreatedByInput = {
-  create?: Prisma.XOR<Prisma.PageCreateWithoutCreatedByInput, Prisma.PageUncheckedCreateWithoutCreatedByInput> | Prisma.PageCreateWithoutCreatedByInput[] | Prisma.PageUncheckedCreateWithoutCreatedByInput[]
-  connectOrCreate?: Prisma.PageCreateOrConnectWithoutCreatedByInput | Prisma.PageCreateOrConnectWithoutCreatedByInput[]
-  createMany?: Prisma.PageCreateManyCreatedByInputEnvelope
-  connect?: Prisma.PageWhereUniqueInput | Prisma.PageWhereUniqueInput[]
-}
-
-export type PageUncheckedCreateNestedManyWithoutCreatedByInput = {
-  create?: Prisma.XOR<Prisma.PageCreateWithoutCreatedByInput, Prisma.PageUncheckedCreateWithoutCreatedByInput> | Prisma.PageCreateWithoutCreatedByInput[] | Prisma.PageUncheckedCreateWithoutCreatedByInput[]
-  connectOrCreate?: Prisma.PageCreateOrConnectWithoutCreatedByInput | Prisma.PageCreateOrConnectWithoutCreatedByInput[]
-  createMany?: Prisma.PageCreateManyCreatedByInputEnvelope
-  connect?: Prisma.PageWhereUniqueInput | Prisma.PageWhereUniqueInput[]
-}
-
-export type PageUpdateManyWithoutCreatedByNestedInput = {
-  create?: Prisma.XOR<Prisma.PageCreateWithoutCreatedByInput, Prisma.PageUncheckedCreateWithoutCreatedByInput> | Prisma.PageCreateWithoutCreatedByInput[] | Prisma.PageUncheckedCreateWithoutCreatedByInput[]
-  connectOrCreate?: Prisma.PageCreateOrConnectWithoutCreatedByInput | Prisma.PageCreateOrConnectWithoutCreatedByInput[]
-  upsert?: Prisma.PageUpsertWithWhereUniqueWithoutCreatedByInput | Prisma.PageUpsertWithWhereUniqueWithoutCreatedByInput[]
-  createMany?: Prisma.PageCreateManyCreatedByInputEnvelope
-  set?: Prisma.PageWhereUniqueInput | Prisma.PageWhereUniqueInput[]
-  disconnect?: Prisma.PageWhereUniqueInput | Prisma.PageWhereUniqueInput[]
-  delete?: Prisma.PageWhereUniqueInput | Prisma.PageWhereUniqueInput[]
-  connect?: Prisma.PageWhereUniqueInput | Prisma.PageWhereUniqueInput[]
-  update?: Prisma.PageUpdateWithWhereUniqueWithoutCreatedByInput | Prisma.PageUpdateWithWhereUniqueWithoutCreatedByInput[]
-  updateMany?: Prisma.PageUpdateManyWithWhereWithoutCreatedByInput | Prisma.PageUpdateManyWithWhereWithoutCreatedByInput[]
-  deleteMany?: Prisma.PageScalarWhereInput | Prisma.PageScalarWhereInput[]
-}
-
-export type PageUncheckedUpdateManyWithoutCreatedByNestedInput = {
-  create?: Prisma.XOR<Prisma.PageCreateWithoutCreatedByInput, Prisma.PageUncheckedCreateWithoutCreatedByInput> | Prisma.PageCreateWithoutCreatedByInput[] | Prisma.PageUncheckedCreateWithoutCreatedByInput[]
-  connectOrCreate?: Prisma.PageCreateOrConnectWithoutCreatedByInput | Prisma.PageCreateOrConnectWithoutCreatedByInput[]
-  upsert?: Prisma.PageUpsertWithWhereUniqueWithoutCreatedByInput | Prisma.PageUpsertWithWhereUniqueWithoutCreatedByInput[]
-  createMany?: Prisma.PageCreateManyCreatedByInputEnvelope
-  set?: Prisma.PageWhereUniqueInput | Prisma.PageWhereUniqueInput[]
-  disconnect?: Prisma.PageWhereUniqueInput | Prisma.PageWhereUniqueInput[]
-  delete?: Prisma.PageWhereUniqueInput | Prisma.PageWhereUniqueInput[]
-  connect?: Prisma.PageWhereUniqueInput | Prisma.PageWhereUniqueInput[]
-  update?: Prisma.PageUpdateWithWhereUniqueWithoutCreatedByInput | Prisma.PageUpdateWithWhereUniqueWithoutCreatedByInput[]
-  updateMany?: Prisma.PageUpdateManyWithWhereWithoutCreatedByInput | Prisma.PageUpdateManyWithWhereWithoutCreatedByInput[]
-  deleteMany?: Prisma.PageScalarWhereInput | Prisma.PageScalarWhereInput[]
-}
-
 export type BoolFieldUpdateOperationsInput = {
   set?: boolean
-}
-
-export type IntFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
 }
 
 export type NullableDateTimeFieldUpdateOperationsInput = {
@@ -511,86 +452,23 @@ export type PageUpdateOneRequiredWithoutSectionsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.PageUpdateToOneWithWhereWithoutSectionsInput, Prisma.PageUpdateWithoutSectionsInput>, Prisma.PageUncheckedUpdateWithoutSectionsInput>
 }
 
-export type PageCreateWithoutCreatedByInput = {
-  id?: string
-  nameEN: string
-  nameAR: string
-  isVisible?: boolean
-  index?: number
-  createdAt?: Date | string
-  updatedAt?: Date | string | null
-  sections?: Prisma.SectionCreateNestedManyWithoutPageInput
-}
-
-export type PageUncheckedCreateWithoutCreatedByInput = {
-  id?: string
-  nameEN: string
-  nameAR: string
-  isVisible?: boolean
-  index?: number
-  createdAt?: Date | string
-  updatedAt?: Date | string | null
-  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutPageInput
-}
-
-export type PageCreateOrConnectWithoutCreatedByInput = {
-  where: Prisma.PageWhereUniqueInput
-  create: Prisma.XOR<Prisma.PageCreateWithoutCreatedByInput, Prisma.PageUncheckedCreateWithoutCreatedByInput>
-}
-
-export type PageCreateManyCreatedByInputEnvelope = {
-  data: Prisma.PageCreateManyCreatedByInput | Prisma.PageCreateManyCreatedByInput[]
-  skipDuplicates?: boolean
-}
-
-export type PageUpsertWithWhereUniqueWithoutCreatedByInput = {
-  where: Prisma.PageWhereUniqueInput
-  update: Prisma.XOR<Prisma.PageUpdateWithoutCreatedByInput, Prisma.PageUncheckedUpdateWithoutCreatedByInput>
-  create: Prisma.XOR<Prisma.PageCreateWithoutCreatedByInput, Prisma.PageUncheckedCreateWithoutCreatedByInput>
-}
-
-export type PageUpdateWithWhereUniqueWithoutCreatedByInput = {
-  where: Prisma.PageWhereUniqueInput
-  data: Prisma.XOR<Prisma.PageUpdateWithoutCreatedByInput, Prisma.PageUncheckedUpdateWithoutCreatedByInput>
-}
-
-export type PageUpdateManyWithWhereWithoutCreatedByInput = {
-  where: Prisma.PageScalarWhereInput
-  data: Prisma.XOR<Prisma.PageUpdateManyMutationInput, Prisma.PageUncheckedUpdateManyWithoutCreatedByInput>
-}
-
-export type PageScalarWhereInput = {
-  AND?: Prisma.PageScalarWhereInput | Prisma.PageScalarWhereInput[]
-  OR?: Prisma.PageScalarWhereInput[]
-  NOT?: Prisma.PageScalarWhereInput | Prisma.PageScalarWhereInput[]
-  id?: Prisma.StringFilter<"Page"> | string
-  nameEN?: Prisma.StringFilter<"Page"> | string
-  nameAR?: Prisma.StringFilter<"Page"> | string
-  isVisible?: Prisma.BoolFilter<"Page"> | boolean
-  index?: Prisma.IntFilter<"Page"> | number
-  createdById?: Prisma.StringFilter<"Page"> | string
-  createdAt?: Prisma.DateTimeFilter<"Page"> | Date | string
-  updatedAt?: Prisma.DateTimeNullableFilter<"Page"> | Date | string | null
-}
-
 export type PageCreateWithoutSectionsInput = {
-  id?: string
+  uuid?: string
   nameEN: string
   nameAR: string
   isVisible?: boolean
   index?: number
   createdAt?: Date | string
   updatedAt?: Date | string | null
-  createdBy: Prisma.UserCreateNestedOneWithoutPagesInput
 }
 
 export type PageUncheckedCreateWithoutSectionsInput = {
-  id?: string
+  id?: number
+  uuid?: string
   nameEN: string
   nameAR: string
   isVisible?: boolean
   index?: number
-  createdById: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
 }
@@ -612,61 +490,18 @@ export type PageUpdateToOneWithWhereWithoutSectionsInput = {
 }
 
 export type PageUpdateWithoutSectionsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  uuid?: Prisma.StringFieldUpdateOperationsInput | string
   nameEN?: Prisma.StringFieldUpdateOperationsInput | string
   nameAR?: Prisma.StringFieldUpdateOperationsInput | string
   isVisible?: Prisma.BoolFieldUpdateOperationsInput | boolean
   index?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdBy?: Prisma.UserUpdateOneRequiredWithoutPagesNestedInput
 }
 
 export type PageUncheckedUpdateWithoutSectionsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  nameEN?: Prisma.StringFieldUpdateOperationsInput | string
-  nameAR?: Prisma.StringFieldUpdateOperationsInput | string
-  isVisible?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  index?: Prisma.IntFieldUpdateOperationsInput | number
-  createdById?: Prisma.StringFieldUpdateOperationsInput | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-}
-
-export type PageCreateManyCreatedByInput = {
-  id?: string
-  nameEN: string
-  nameAR: string
-  isVisible?: boolean
-  index?: number
-  createdAt?: Date | string
-  updatedAt?: Date | string | null
-}
-
-export type PageUpdateWithoutCreatedByInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  nameEN?: Prisma.StringFieldUpdateOperationsInput | string
-  nameAR?: Prisma.StringFieldUpdateOperationsInput | string
-  isVisible?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  index?: Prisma.IntFieldUpdateOperationsInput | number
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  sections?: Prisma.SectionUpdateManyWithoutPageNestedInput
-}
-
-export type PageUncheckedUpdateWithoutCreatedByInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  nameEN?: Prisma.StringFieldUpdateOperationsInput | string
-  nameAR?: Prisma.StringFieldUpdateOperationsInput | string
-  isVisible?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  index?: Prisma.IntFieldUpdateOperationsInput | number
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  sections?: Prisma.SectionUncheckedUpdateManyWithoutPageNestedInput
-}
-
-export type PageUncheckedUpdateManyWithoutCreatedByInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  uuid?: Prisma.StringFieldUpdateOperationsInput | string
   nameEN?: Prisma.StringFieldUpdateOperationsInput | string
   nameAR?: Prisma.StringFieldUpdateOperationsInput | string
   isVisible?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -708,79 +543,70 @@ export type PageCountOutputTypeCountSectionsArgs<ExtArgs extends runtime.Types.E
 
 export type PageSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  uuid?: boolean
   nameEN?: boolean
   nameAR?: boolean
   isVisible?: boolean
   index?: boolean
-  createdById?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   sections?: boolean | Prisma.Page$sectionsArgs<ExtArgs>
   _count?: boolean | Prisma.PageCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["page"]>
 
 export type PageSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  uuid?: boolean
   nameEN?: boolean
   nameAR?: boolean
   isVisible?: boolean
   index?: boolean
-  createdById?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["page"]>
 
 export type PageSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  uuid?: boolean
   nameEN?: boolean
   nameAR?: boolean
   isVisible?: boolean
   index?: boolean
-  createdById?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["page"]>
 
 export type PageSelectScalar = {
   id?: boolean
+  uuid?: boolean
   nameEN?: boolean
   nameAR?: boolean
   isVisible?: boolean
   index?: boolean
-  createdById?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type PageOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "nameEN" | "nameAR" | "isVisible" | "index" | "createdById" | "createdAt" | "updatedAt", ExtArgs["result"]["page"]>
+export type PageOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "uuid" | "nameEN" | "nameAR" | "isVisible" | "index" | "createdAt" | "updatedAt", ExtArgs["result"]["page"]>
 export type PageInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   sections?: boolean | Prisma.Page$sectionsArgs<ExtArgs>
   _count?: boolean | Prisma.PageCountOutputTypeDefaultArgs<ExtArgs>
 }
-export type PageIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-}
-export type PageIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-}
+export type PageIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type PageIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
 
 export type $PagePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Page"
   objects: {
-    createdBy: Prisma.$UserPayload<ExtArgs>
     sections: Prisma.$SectionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    id: string
+    id: number
+    uuid: string
     nameEN: string
     nameAR: string
     isVisible: boolean
     index: number
-    createdById: string
     createdAt: Date
     updatedAt: Date | null
   }, ExtArgs["result"]["page"]>
@@ -1177,7 +1003,6 @@ readonly fields: PageFieldRefs;
  */
 export interface Prisma__PageClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  createdBy<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   sections<T extends Prisma.Page$sectionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Page$sectionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SectionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1208,12 +1033,12 @@ export interface Prisma__PageClient<T, Null = never, ExtArgs extends runtime.Typ
  * Fields of the Page model
  */
 export interface PageFieldRefs {
-  readonly id: Prisma.FieldRef<"Page", 'String'>
+  readonly id: Prisma.FieldRef<"Page", 'Int'>
+  readonly uuid: Prisma.FieldRef<"Page", 'String'>
   readonly nameEN: Prisma.FieldRef<"Page", 'String'>
   readonly nameAR: Prisma.FieldRef<"Page", 'String'>
   readonly isVisible: Prisma.FieldRef<"Page", 'Boolean'>
   readonly index: Prisma.FieldRef<"Page", 'Int'>
-  readonly createdById: Prisma.FieldRef<"Page", 'String'>
   readonly createdAt: Prisma.FieldRef<"Page", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Page", 'DateTime'>
 }
@@ -1470,10 +1295,6 @@ export type PageCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions
    */
   data: Prisma.PageCreateManyInput | Prisma.PageCreateManyInput[]
   skipDuplicates?: boolean
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.PageIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1544,10 +1365,6 @@ export type PageUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions
    * Limit how many Pages to update.
    */
   limit?: number
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.PageIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

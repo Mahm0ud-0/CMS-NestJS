@@ -27,42 +27,46 @@ export type AggregateSection = {
 }
 
 export type SectionAvgAggregateOutputType = {
+  id: number | null
   index: number | null
+  pageId: number | null
 }
 
 export type SectionSumAggregateOutputType = {
+  id: number | null
   index: number | null
+  pageId: number | null
 }
 
 export type SectionMinAggregateOutputType = {
-  id: string | null
+  id: number | null
+  uuid: string | null
   nameEN: string | null
   nameAR: string | null
   index: number | null
-  pageId: string | null
-  createdBy: string | null
+  pageId: number | null
   createdAt: Date | null
   updatedAt: Date | null
 }
 
 export type SectionMaxAggregateOutputType = {
-  id: string | null
+  id: number | null
+  uuid: string | null
   nameEN: string | null
   nameAR: string | null
   index: number | null
-  pageId: string | null
-  createdBy: string | null
+  pageId: number | null
   createdAt: Date | null
   updatedAt: Date | null
 }
 
 export type SectionCountAggregateOutputType = {
   id: number
+  uuid: number
   nameEN: number
   nameAR: number
   index: number
   pageId: number
-  createdBy: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -70,42 +74,46 @@ export type SectionCountAggregateOutputType = {
 
 
 export type SectionAvgAggregateInputType = {
+  id?: true
   index?: true
+  pageId?: true
 }
 
 export type SectionSumAggregateInputType = {
+  id?: true
   index?: true
+  pageId?: true
 }
 
 export type SectionMinAggregateInputType = {
   id?: true
+  uuid?: true
   nameEN?: true
   nameAR?: true
   index?: true
   pageId?: true
-  createdBy?: true
   createdAt?: true
   updatedAt?: true
 }
 
 export type SectionMaxAggregateInputType = {
   id?: true
+  uuid?: true
   nameEN?: true
   nameAR?: true
   index?: true
   pageId?: true
-  createdBy?: true
   createdAt?: true
   updatedAt?: true
 }
 
 export type SectionCountAggregateInputType = {
   id?: true
+  uuid?: true
   nameEN?: true
   nameAR?: true
   index?: true
   pageId?: true
-  createdBy?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -198,12 +206,12 @@ export type SectionGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
 }
 
 export type SectionGroupByOutputType = {
-  id: string
+  id: number
+  uuid: string
   nameEN: string
   nameAR: string
   index: number
-  pageId: string
-  createdBy: string
+  pageId: number
   createdAt: Date
   updatedAt: Date | null
   _count: SectionCountAggregateOutputType | null
@@ -232,54 +240,54 @@ export type SectionWhereInput = {
   AND?: Prisma.SectionWhereInput | Prisma.SectionWhereInput[]
   OR?: Prisma.SectionWhereInput[]
   NOT?: Prisma.SectionWhereInput | Prisma.SectionWhereInput[]
-  id?: Prisma.StringFilter<"Section"> | string
+  id?: Prisma.IntFilter<"Section"> | number
+  uuid?: Prisma.StringFilter<"Section"> | string
   nameEN?: Prisma.StringFilter<"Section"> | string
   nameAR?: Prisma.StringFilter<"Section"> | string
   index?: Prisma.IntFilter<"Section"> | number
-  pageId?: Prisma.StringFilter<"Section"> | string
-  createdBy?: Prisma.StringFilter<"Section"> | string
+  pageId?: Prisma.IntFilter<"Section"> | number
   createdAt?: Prisma.DateTimeFilter<"Section"> | Date | string
   updatedAt?: Prisma.DateTimeNullableFilter<"Section"> | Date | string | null
-  page?: Prisma.XOR<Prisma.PageScalarRelationFilter, Prisma.PageWhereInput>
   sectionComponents?: Prisma.SectionComponentListRelationFilter
+  page?: Prisma.XOR<Prisma.PageScalarRelationFilter, Prisma.PageWhereInput>
 }
 
 export type SectionOrderByWithRelationInput = {
   id?: Prisma.SortOrder
+  uuid?: Prisma.SortOrder
   nameEN?: Prisma.SortOrder
   nameAR?: Prisma.SortOrder
   index?: Prisma.SortOrder
   pageId?: Prisma.SortOrder
-  createdBy?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  page?: Prisma.PageOrderByWithRelationInput
   sectionComponents?: Prisma.SectionComponentOrderByRelationAggregateInput
+  page?: Prisma.PageOrderByWithRelationInput
 }
 
 export type SectionWhereUniqueInput = Prisma.AtLeast<{
-  id?: string
+  id?: number
+  uuid?: string
   AND?: Prisma.SectionWhereInput | Prisma.SectionWhereInput[]
   OR?: Prisma.SectionWhereInput[]
   NOT?: Prisma.SectionWhereInput | Prisma.SectionWhereInput[]
   nameEN?: Prisma.StringFilter<"Section"> | string
   nameAR?: Prisma.StringFilter<"Section"> | string
   index?: Prisma.IntFilter<"Section"> | number
-  pageId?: Prisma.StringFilter<"Section"> | string
-  createdBy?: Prisma.StringFilter<"Section"> | string
+  pageId?: Prisma.IntFilter<"Section"> | number
   createdAt?: Prisma.DateTimeFilter<"Section"> | Date | string
   updatedAt?: Prisma.DateTimeNullableFilter<"Section"> | Date | string | null
-  page?: Prisma.XOR<Prisma.PageScalarRelationFilter, Prisma.PageWhereInput>
   sectionComponents?: Prisma.SectionComponentListRelationFilter
-}, "id">
+  page?: Prisma.XOR<Prisma.PageScalarRelationFilter, Prisma.PageWhereInput>
+}, "id" | "uuid">
 
 export type SectionOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
+  uuid?: Prisma.SortOrder
   nameEN?: Prisma.SortOrder
   nameAR?: Prisma.SortOrder
   index?: Prisma.SortOrder
   pageId?: Prisma.SortOrder
-  createdBy?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.SectionCountOrderByAggregateInput
@@ -293,92 +301,89 @@ export type SectionScalarWhereWithAggregatesInput = {
   AND?: Prisma.SectionScalarWhereWithAggregatesInput | Prisma.SectionScalarWhereWithAggregatesInput[]
   OR?: Prisma.SectionScalarWhereWithAggregatesInput[]
   NOT?: Prisma.SectionScalarWhereWithAggregatesInput | Prisma.SectionScalarWhereWithAggregatesInput[]
-  id?: Prisma.StringWithAggregatesFilter<"Section"> | string
+  id?: Prisma.IntWithAggregatesFilter<"Section"> | number
+  uuid?: Prisma.StringWithAggregatesFilter<"Section"> | string
   nameEN?: Prisma.StringWithAggregatesFilter<"Section"> | string
   nameAR?: Prisma.StringWithAggregatesFilter<"Section"> | string
   index?: Prisma.IntWithAggregatesFilter<"Section"> | number
-  pageId?: Prisma.StringWithAggregatesFilter<"Section"> | string
-  createdBy?: Prisma.StringWithAggregatesFilter<"Section"> | string
+  pageId?: Prisma.IntWithAggregatesFilter<"Section"> | number
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Section"> | Date | string
   updatedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Section"> | Date | string | null
 }
 
 export type SectionCreateInput = {
-  id?: string
+  uuid?: string
   nameEN: string
   nameAR: string
   index?: number
-  createdBy: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
-  page: Prisma.PageCreateNestedOneWithoutSectionsInput
   sectionComponents?: Prisma.SectionComponentCreateNestedManyWithoutSectionInput
+  page: Prisma.PageCreateNestedOneWithoutSectionsInput
 }
 
 export type SectionUncheckedCreateInput = {
-  id?: string
+  id?: number
+  uuid?: string
   nameEN: string
   nameAR: string
   index?: number
-  pageId: string
-  createdBy: string
+  pageId: number
   createdAt?: Date | string
   updatedAt?: Date | string | null
   sectionComponents?: Prisma.SectionComponentUncheckedCreateNestedManyWithoutSectionInput
 }
 
 export type SectionUpdateInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  uuid?: Prisma.StringFieldUpdateOperationsInput | string
   nameEN?: Prisma.StringFieldUpdateOperationsInput | string
   nameAR?: Prisma.StringFieldUpdateOperationsInput | string
   index?: Prisma.IntFieldUpdateOperationsInput | number
-  createdBy?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  page?: Prisma.PageUpdateOneRequiredWithoutSectionsNestedInput
   sectionComponents?: Prisma.SectionComponentUpdateManyWithoutSectionNestedInput
+  page?: Prisma.PageUpdateOneRequiredWithoutSectionsNestedInput
 }
 
 export type SectionUncheckedUpdateInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  uuid?: Prisma.StringFieldUpdateOperationsInput | string
   nameEN?: Prisma.StringFieldUpdateOperationsInput | string
   nameAR?: Prisma.StringFieldUpdateOperationsInput | string
   index?: Prisma.IntFieldUpdateOperationsInput | number
-  pageId?: Prisma.StringFieldUpdateOperationsInput | string
-  createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  pageId?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   sectionComponents?: Prisma.SectionComponentUncheckedUpdateManyWithoutSectionNestedInput
 }
 
 export type SectionCreateManyInput = {
-  id?: string
+  id?: number
+  uuid?: string
   nameEN: string
   nameAR: string
   index?: number
-  pageId: string
-  createdBy: string
+  pageId: number
   createdAt?: Date | string
   updatedAt?: Date | string | null
 }
 
 export type SectionUpdateManyMutationInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  uuid?: Prisma.StringFieldUpdateOperationsInput | string
   nameEN?: Prisma.StringFieldUpdateOperationsInput | string
   nameAR?: Prisma.StringFieldUpdateOperationsInput | string
   index?: Prisma.IntFieldUpdateOperationsInput | number
-  createdBy?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type SectionUncheckedUpdateManyInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  uuid?: Prisma.StringFieldUpdateOperationsInput | string
   nameEN?: Prisma.StringFieldUpdateOperationsInput | string
   nameAR?: Prisma.StringFieldUpdateOperationsInput | string
   index?: Prisma.IntFieldUpdateOperationsInput | number
-  pageId?: Prisma.StringFieldUpdateOperationsInput | string
-  createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  pageId?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -395,43 +400,47 @@ export type SectionOrderByRelationAggregateInput = {
 
 export type SectionCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  uuid?: Prisma.SortOrder
   nameEN?: Prisma.SortOrder
   nameAR?: Prisma.SortOrder
   index?: Prisma.SortOrder
   pageId?: Prisma.SortOrder
-  createdBy?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type SectionAvgOrderByAggregateInput = {
+  id?: Prisma.SortOrder
   index?: Prisma.SortOrder
+  pageId?: Prisma.SortOrder
 }
 
 export type SectionMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  uuid?: Prisma.SortOrder
   nameEN?: Prisma.SortOrder
   nameAR?: Prisma.SortOrder
   index?: Prisma.SortOrder
   pageId?: Prisma.SortOrder
-  createdBy?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type SectionMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  uuid?: Prisma.SortOrder
   nameEN?: Prisma.SortOrder
   nameAR?: Prisma.SortOrder
   index?: Prisma.SortOrder
   pageId?: Prisma.SortOrder
-  createdBy?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type SectionSumOrderByAggregateInput = {
+  id?: Prisma.SortOrder
   index?: Prisma.SortOrder
+  pageId?: Prisma.SortOrder
 }
 
 export type SectionScalarRelationFilter = {
@@ -496,22 +505,21 @@ export type SectionUpdateOneRequiredWithoutSectionComponentsNestedInput = {
 }
 
 export type SectionCreateWithoutPageInput = {
-  id?: string
+  uuid?: string
   nameEN: string
   nameAR: string
   index?: number
-  createdBy: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
   sectionComponents?: Prisma.SectionComponentCreateNestedManyWithoutSectionInput
 }
 
 export type SectionUncheckedCreateWithoutPageInput = {
-  id?: string
+  id?: number
+  uuid?: string
   nameEN: string
   nameAR: string
   index?: number
-  createdBy: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
   sectionComponents?: Prisma.SectionComponentUncheckedCreateNestedManyWithoutSectionInput
@@ -547,34 +555,33 @@ export type SectionScalarWhereInput = {
   AND?: Prisma.SectionScalarWhereInput | Prisma.SectionScalarWhereInput[]
   OR?: Prisma.SectionScalarWhereInput[]
   NOT?: Prisma.SectionScalarWhereInput | Prisma.SectionScalarWhereInput[]
-  id?: Prisma.StringFilter<"Section"> | string
+  id?: Prisma.IntFilter<"Section"> | number
+  uuid?: Prisma.StringFilter<"Section"> | string
   nameEN?: Prisma.StringFilter<"Section"> | string
   nameAR?: Prisma.StringFilter<"Section"> | string
   index?: Prisma.IntFilter<"Section"> | number
-  pageId?: Prisma.StringFilter<"Section"> | string
-  createdBy?: Prisma.StringFilter<"Section"> | string
+  pageId?: Prisma.IntFilter<"Section"> | number
   createdAt?: Prisma.DateTimeFilter<"Section"> | Date | string
   updatedAt?: Prisma.DateTimeNullableFilter<"Section"> | Date | string | null
 }
 
 export type SectionCreateWithoutSectionComponentsInput = {
-  id?: string
+  uuid?: string
   nameEN: string
   nameAR: string
   index?: number
-  createdBy: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
   page: Prisma.PageCreateNestedOneWithoutSectionsInput
 }
 
 export type SectionUncheckedCreateWithoutSectionComponentsInput = {
-  id?: string
+  id?: number
+  uuid?: string
   nameEN: string
   nameAR: string
   index?: number
-  pageId: string
-  createdBy: string
+  pageId: number
   createdAt?: Date | string
   updatedAt?: Date | string | null
 }
@@ -596,65 +603,63 @@ export type SectionUpdateToOneWithWhereWithoutSectionComponentsInput = {
 }
 
 export type SectionUpdateWithoutSectionComponentsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  uuid?: Prisma.StringFieldUpdateOperationsInput | string
   nameEN?: Prisma.StringFieldUpdateOperationsInput | string
   nameAR?: Prisma.StringFieldUpdateOperationsInput | string
   index?: Prisma.IntFieldUpdateOperationsInput | number
-  createdBy?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   page?: Prisma.PageUpdateOneRequiredWithoutSectionsNestedInput
 }
 
 export type SectionUncheckedUpdateWithoutSectionComponentsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  uuid?: Prisma.StringFieldUpdateOperationsInput | string
   nameEN?: Prisma.StringFieldUpdateOperationsInput | string
   nameAR?: Prisma.StringFieldUpdateOperationsInput | string
   index?: Prisma.IntFieldUpdateOperationsInput | number
-  pageId?: Prisma.StringFieldUpdateOperationsInput | string
-  createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  pageId?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type SectionCreateManyPageInput = {
-  id?: string
+  id?: number
+  uuid?: string
   nameEN: string
   nameAR: string
   index?: number
-  createdBy: string
   createdAt?: Date | string
   updatedAt?: Date | string | null
 }
 
 export type SectionUpdateWithoutPageInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  uuid?: Prisma.StringFieldUpdateOperationsInput | string
   nameEN?: Prisma.StringFieldUpdateOperationsInput | string
   nameAR?: Prisma.StringFieldUpdateOperationsInput | string
   index?: Prisma.IntFieldUpdateOperationsInput | number
-  createdBy?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   sectionComponents?: Prisma.SectionComponentUpdateManyWithoutSectionNestedInput
 }
 
 export type SectionUncheckedUpdateWithoutPageInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  uuid?: Prisma.StringFieldUpdateOperationsInput | string
   nameEN?: Prisma.StringFieldUpdateOperationsInput | string
   nameAR?: Prisma.StringFieldUpdateOperationsInput | string
   index?: Prisma.IntFieldUpdateOperationsInput | number
-  createdBy?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   sectionComponents?: Prisma.SectionComponentUncheckedUpdateManyWithoutSectionNestedInput
 }
 
 export type SectionUncheckedUpdateManyWithoutPageInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  uuid?: Prisma.StringFieldUpdateOperationsInput | string
   nameEN?: Prisma.StringFieldUpdateOperationsInput | string
   nameAR?: Prisma.StringFieldUpdateOperationsInput | string
   index?: Prisma.IntFieldUpdateOperationsInput | number
-  createdBy?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -692,25 +697,25 @@ export type SectionCountOutputTypeCountSectionComponentsArgs<ExtArgs extends run
 
 export type SectionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  uuid?: boolean
   nameEN?: boolean
   nameAR?: boolean
   index?: boolean
   pageId?: boolean
-  createdBy?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  page?: boolean | Prisma.PageDefaultArgs<ExtArgs>
   sectionComponents?: boolean | Prisma.Section$sectionComponentsArgs<ExtArgs>
+  page?: boolean | Prisma.PageDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.SectionCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["section"]>
 
 export type SectionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  uuid?: boolean
   nameEN?: boolean
   nameAR?: boolean
   index?: boolean
   pageId?: boolean
-  createdBy?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   page?: boolean | Prisma.PageDefaultArgs<ExtArgs>
@@ -718,11 +723,11 @@ export type SectionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
 
 export type SectionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  uuid?: boolean
   nameEN?: boolean
   nameAR?: boolean
   index?: boolean
   pageId?: boolean
-  createdBy?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   page?: boolean | Prisma.PageDefaultArgs<ExtArgs>
@@ -730,19 +735,19 @@ export type SectionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
 
 export type SectionSelectScalar = {
   id?: boolean
+  uuid?: boolean
   nameEN?: boolean
   nameAR?: boolean
   index?: boolean
   pageId?: boolean
-  createdBy?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type SectionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "nameEN" | "nameAR" | "index" | "pageId" | "createdBy" | "createdAt" | "updatedAt", ExtArgs["result"]["section"]>
+export type SectionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "uuid" | "nameEN" | "nameAR" | "index" | "pageId" | "createdAt" | "updatedAt", ExtArgs["result"]["section"]>
 export type SectionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  page?: boolean | Prisma.PageDefaultArgs<ExtArgs>
   sectionComponents?: boolean | Prisma.Section$sectionComponentsArgs<ExtArgs>
+  page?: boolean | Prisma.PageDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.SectionCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type SectionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -755,16 +760,16 @@ export type SectionIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
 export type $SectionPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Section"
   objects: {
-    page: Prisma.$PagePayload<ExtArgs>
     sectionComponents: Prisma.$SectionComponentPayload<ExtArgs>[]
+    page: Prisma.$PagePayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    id: string
+    id: number
+    uuid: string
     nameEN: string
     nameAR: string
     index: number
-    pageId: string
-    createdBy: string
+    pageId: number
     createdAt: Date
     updatedAt: Date | null
   }, ExtArgs["result"]["section"]>
@@ -1161,8 +1166,8 @@ readonly fields: SectionFieldRefs;
  */
 export interface Prisma__SectionClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  page<T extends Prisma.PageDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PageDefaultArgs<ExtArgs>>): Prisma.Prisma__PageClient<runtime.Types.Result.GetResult<Prisma.$PagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   sectionComponents<T extends Prisma.Section$sectionComponentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Section$sectionComponentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SectionComponentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  page<T extends Prisma.PageDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PageDefaultArgs<ExtArgs>>): Prisma.Prisma__PageClient<runtime.Types.Result.GetResult<Prisma.$PagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1192,12 +1197,12 @@ export interface Prisma__SectionClient<T, Null = never, ExtArgs extends runtime.
  * Fields of the Section model
  */
 export interface SectionFieldRefs {
-  readonly id: Prisma.FieldRef<"Section", 'String'>
+  readonly id: Prisma.FieldRef<"Section", 'Int'>
+  readonly uuid: Prisma.FieldRef<"Section", 'String'>
   readonly nameEN: Prisma.FieldRef<"Section", 'String'>
   readonly nameAR: Prisma.FieldRef<"Section", 'String'>
   readonly index: Prisma.FieldRef<"Section", 'Int'>
-  readonly pageId: Prisma.FieldRef<"Section", 'String'>
-  readonly createdBy: Prisma.FieldRef<"Section", 'String'>
+  readonly pageId: Prisma.FieldRef<"Section", 'Int'>
   readonly createdAt: Prisma.FieldRef<"Section", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Section", 'DateTime'>
 }

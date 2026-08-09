@@ -1,13 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { randomBytes, createHash } from 'crypto';
-import { ITokenService } from '../application/services.abstract';
+import { ITokenService } from '../application/services.interface';
 
 @Injectable()
-export class JwtTokenService extends ITokenService {
-  constructor(private readonly jwtService: JwtService) {
-    super();
-  }
+export class JwtTokenService implements ITokenService {
+  constructor(private readonly jwtService: JwtService) {}
 
   generateAccessToken(payload: { id: string; name: string }): string {
     return this.jwtService.sign(payload);
