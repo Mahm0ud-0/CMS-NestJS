@@ -26,5 +26,5 @@ export interface IRefreshTokenRepository {
   revoke(token: RefreshToken): Promise<void>;
 }
 
-export const IUserRepository = Symbol('IUserRepository');
-export const IRefreshTokenRepository = Symbol('IRefreshTokenRepository');
+export const I_User_Repository = Symbol('IUserRepository');
+export const I_Refresh_Token_Repository = Symbol('IRefreshTokenRepository');

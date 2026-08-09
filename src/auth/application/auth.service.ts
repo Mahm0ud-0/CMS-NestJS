@@ -4,7 +4,12 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-import { IRefreshTokenRepository, IUserRepository } from '../domain/auth.types';
+import {
+  I_Refresh_Token_Repository,
+  I_User_Repository,
+  type IRefreshTokenRepository,
+  type IUserRepository,
+} from '../domain/auth.types';
 import {
   I_Password_Hasher,
   I_Token_Service,
@@ -20,8 +25,8 @@ import { RegisterDto } from '../presentation/http/dto/register.dto';
 @Injectable()
 export class AuthService {
   constructor(
-    @Inject(IUserRepository) private readonly userRepo: IUserRepository,
-    @Inject(IRefreshTokenRepository)
+    @Inject(I_User_Repository) private readonly userRepo: IUserRepository,
+    @Inject(I_Refresh_Token_Repository)
     private readonly refreshTokenRepo: IRefreshTokenRepository,
     @Inject(I_Password_Hasher) private readonly passwordHasher: IPasswordHasher,
     @Inject(I_Token_Service) private readonly tokenService: ITokenService,
