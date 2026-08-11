@@ -65,12 +65,12 @@ export class AuthController {
     @Res({ passthrough: true }) response: Response,
   ) {
     const oldRefreshToken: string = request.cookies?.refreshToken as string;
-    console.log('Old refresh token:', oldRefreshToken);
+
     if (!oldRefreshToken)
       throw new UnauthorizedException('Refresh token missing, please login');
 
     const result = await this.authService.refresh(oldRefreshToken);
-    // Rotate cookie
+    // rotate cookie
     response.cookie('refreshToken', result.refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',

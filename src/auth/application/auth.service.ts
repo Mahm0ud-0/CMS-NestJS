@@ -130,23 +130,25 @@ export class AuthService {
 
     const storedToken = await this.refreshTokenRepo.findByTokenHash(hash);
     if (!storedToken) {
-      throw new Error('Invalid refresh token');
+      throw new UnauthorizedException('Invalid refresh token');
     }
 
     if (storedToken.revoked) {
       await this.refreshTokenRepo.revokeAllForUser(storedToken.userId);
-      throw new Error('Token in no longer valid, Please Login.');
+      throw new UnauthorizedException(
+        'Token in no longer valid, Please Login.',
+      );
     }
 
     if (storedToken.expiresAt < new Date()) {
       await this.refreshTokenRepo.revoke(storedToken);
-      throw new Error('Refresh token expired');
+      throw new UnauthorizedException('Refresh token expired');
     }
 
     await this.refreshTokenRepo.revoke(storedToken);
 
     const user = await this.userRepo.findByUuid(storedToken.userId);
-    if (!user) throw new Error('User not found');
+    if (!user) throw new UnauthorizedException('User not found');
 
     const newAccessToken = this.tokenService.generateAccessToken({
       id: user.id,
