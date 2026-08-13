@@ -22,7 +22,7 @@ export class SectionComponentPrismaRepository implements ISectionComponentReposi
   }
 
   async save(sc: SectionComponent): Promise<void> {
-    // Resolve integer IDs from UUIDs
+    
     const section = await this.prisma.section.findUnique({
       where: { uuid: sc.sectionId },
     });

@@ -13,10 +13,14 @@ import { SectionComponentPrismaRepository } from './infrastructure/sectionCompon
 import { CmsPublicService } from './application/cms-public.service';
 // import { CmsAdminService } from './application/cms-admin.service';
 import { PublicCmsController } from './presentation/http/public-cms.controller';
+import { AdminCmsController } from './presentation/http/admin-cms.controller';
+import { CmsAdminService } from './application/cms-admin.service';
 
 @Module({
   providers: [
     PrismaService,
+    CmsAdminService,
+    CmsPublicService,
     { provide: I_PAGE_REPOSITORY, useClass: PagePrismaRepository },
     { provide: I_SECTION_REPOSITORY, useClass: SectionPrismaRepository },
     { provide: I_COMPONENT_REPOSITORY, useClass: ComponentPrismaRepository },
@@ -24,9 +28,7 @@ import { PublicCmsController } from './presentation/http/public-cms.controller';
       provide: I_SECTION_COMPONENT_REPOSITORY,
       useClass: SectionComponentPrismaRepository,
     },
-    CmsPublicService,
-    // CmsAdminService,
   ],
-  controllers: [PublicCmsController],
+  controllers: [PublicCmsController, AdminCmsController],
 })
 export class CmsModule {}

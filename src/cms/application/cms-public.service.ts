@@ -1,13 +1,13 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import {
   I_PAGE_REPOSITORY,
-  I_SECTION_REPOSITORY,
-  I_COMPONENT_REPOSITORY,
-  I_SECTION_COMPONENT_REPOSITORY,
-  type ISectionRepository,
+  // I_SECTION_REPOSITORY,
+  // I_COMPONENT_REPOSITORY,
+  // I_SECTION_COMPONENT_REPOSITORY,
+  // type ISectionRepository,
+  // type IComponentRepository,
+  // type ISectionComponentRepository,
   type IPageRepository,
-  type IComponentRepository,
-  type ISectionComponentRepository,
   Page,
   FullPageTree,
 } from '../domain/cms.types';
@@ -17,12 +17,12 @@ export class CmsPublicService {
   constructor(
     @Inject(I_PAGE_REPOSITORY)
     private readonly pageRepository: IPageRepository,
-    @Inject(I_SECTION_REPOSITORY)
-    private readonly sectionRepository: ISectionRepository,
-    @Inject(I_COMPONENT_REPOSITORY)
-    private readonly componentRepository: IComponentRepository,
-    @Inject(I_SECTION_COMPONENT_REPOSITORY)
-    private readonly sectionComponentRepository: ISectionComponentRepository,
+    // @Inject(I_SECTION_REPOSITORY)
+    // private readonly sectionRepository: ISectionRepository,
+    // @Inject(I_COMPONENT_REPOSITORY)
+    // private readonly componentRepository: IComponentRepository,
+    // @Inject(I_SECTION_COMPONENT_REPOSITORY)
+    // private readonly sectionComponentRepository: ISectionComponentRepository,
   ) {}
 
   async getALLVisiblePages(): Promise<Page[]> {
@@ -38,8 +38,4 @@ export class CmsPublicService {
     }
     return page;
   }
-
-  // async getFooter(): Promise<PageTreeDto> {
-  //   // ...;
-  // }
 }

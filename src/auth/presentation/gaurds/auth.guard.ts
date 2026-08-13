@@ -26,7 +26,7 @@ export class JwtAuthGuard implements CanActivate {
     ]);
 
     if (isPublic) {
-      return true; // Skip authentication
+      return true;
     }
 
     const request = context

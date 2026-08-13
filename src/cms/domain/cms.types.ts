@@ -61,9 +61,13 @@ export interface FullPageTree {
 }
 export interface IPageRepository {
   findAllVisible(): Promise<Page[]>;
-  findByUuid(uuid: string): Promise<Page | null>;
+  findByUuid(uuid: string): Promise<FullPageTree | null>;
   findByNameEN(name: string): Promise<FullPageTree | null>;
-  save(page: Page): Promise<void>;
+  save(
+    page: Page,
+    sections?: Section[],
+    sectionComponents?: SectionComponent[],
+  ): Promise<void>;
   delete(uuid: string): Promise<void>;
 }
 

@@ -1,84 +1,88 @@
-// import { Inject, Injectable } from '@nestjs/common';
-// import {
-//   I_PAGE_REPOSITORY,
-//   I_SECTION_REPOSITORY,
-//   I_COMPONENT_REPOSITORY,
-//   I_SECTION_COMPONENT_REPOSITORY,
-//   type ISectionRepository,
-//   type IPageRepository,
-//   type IComponentRepository,
-//   type ISectionComponentRepository,
-//   SectionComponent,
-// } from '../domain/cms.types';
+import { Inject, Injectable } from '@nestjs/common';
+import { randomUUID } from 'crypto';
+import {
+  I_PAGE_REPOSITORY,
+  I_SECTION_REPOSITORY,
+  I_COMPONENT_REPOSITORY,
+  I_SECTION_COMPONENT_REPOSITORY,
+  type ISectionRepository,
+  type IPageRepository,
+  type IComponentRepository,
+  type ISectionComponentRepository,
+  type Page,
+  type Section,
+  SectionComponent,
+  FullPageTree,
+} from '../domain/cms.types';
+import { CreatePageDto } from '../presentation/http/dto/create-page.dto';
 
-// @Injectable()
-// export class CmsAdminService {
-//   constructor(
-//     @Inject(I_PAGE_REPOSITORY)
-//     private readonly pageRepository: IPageRepository,
-//     @Inject(I_SECTION_REPOSITORY)
-//     private readonly sectionRepository: ISectionRepository,
-//     @Inject(I_COMPONENT_REPOSITORY)
-//     private readonly componentRepository: IComponentRepository,
-//     @Inject(I_SECTION_COMPONENT_REPOSITORY)
-//     private readonly sectionComponentRepository: ISectionComponentRepository,
-//   ) {}
+@Injectable()
+export class CmsAdminService {
+  constructor(
+    @Inject(I_PAGE_REPOSITORY)
+    private readonly pageRepository: IPageRepository,
+    @Inject(I_SECTION_REPOSITORY)
+    private readonly sectionRepository: ISectionRepository,
+    @Inject(I_COMPONENT_REPOSITORY)
+    private readonly componentRepository: IComponentRepository,
+    @Inject(I_SECTION_COMPONENT_REPOSITORY)
+    private readonly sectionComponentRepository: ISectionComponentRepository,
+  ) {}
 
-//   // ---- Page ----
-//   async createPage(dto: CreatePageDto): Promise<PageTreeDto> {
-//     // Transactional: create page, sections, placements
-//     // then fetch & return full tree
-//   }
+  // ---- Page ----
+  async createPage(dto: CreatePageDto): Promise<FullPageTree> {
+    // 1. Page
+    const newPage: Page = {
+      id: randomUUID(),
+      nameEN: dto.nameEN,
+      nameAR: dto.nameAR,
+      isVisible: dto.isVisible,
+      index: dto.index,
+    };
 
-//   async updatePage(pageUuid: string, dto: UpdatePageDto): Promise<PageTreeDto> {
-//     // Full replacement: delete old sections/placements, recreate
-//   }
+    // if no section save and return
+    if (!dto.sections || dto.sections.length === 0) {
+      await this.pageRepository.save(newPage);
+      const page = await this.pageRepository.findByNameEN(dto.nameEN);
+      if (!page) throw new Error('Page creation failed');
+      return page;
+    }
 
-//   async deletePage(pageUuid: string): Promise<void> {
-//     //...
-//   }
+    // 2. Build sections
+    const newSections: Section[] = dto.sections.map((secDto) => ({
+      id: randomUUID(),
+      nameEN: secDto.nameEN,
+      nameAR: secDto.nameAR,
+      index: secDto.index,
+      pageId: newPage.id,
+    }));
 
-//   // ---- Section ----
-//   async createSection(dto: CreateSectionDto): Promise<Section> {
-//     //...
-//   }
-//   async updateSection(
-//     sectionUuid: string,
-//     dto: UpdateSectionDto,
-//   ): Promise<Section> {
-//     //...
-//   }
-//   async deleteSection(sectionUuid: string): Promise<void> {
-//     //...
-//   }
+    // 3. Build section components
+    const newSectionComponents: SectionComponent[] = [];
 
-//   // ---- Component ----
-//   async createComponent(dto: CreateComponentDto): Promise<Component> {
-//     //...
-//   }
-//   async updateComponent(
-//     compUuid: string,
-//     dto: UpdateComponentDto,
-//   ): Promise<Component> {
-//     //...
-//   }
-//   async deleteComponent(compUuid: string): Promise<void> {
-//     //...
-//   }
+    for (let i = 0; i < dto.sections.length; i++) {
+      const sectionDto = dto.sections[i];
+      const sectionUuid = newSections[i].id;
 
-//   // ---- Section-Component placements ----
-//   async addComponentToSection(
-//     dto: AddComponentToSectionDto,
-//   ): Promise<SectionComponent> {
-//     //...
-//   }
-//   async updatePlacement(
-//     placementUuid: string,
-//     dto: UpdatePlacementDto,
-//   ): Promise<SectionComponent> {
-//     //...
-//   }
-//   async removePlacement(placementUuid: string): Promise<void> {
-//     //...
-//   }
-// }
+      const sectionComponents = sectionDto.components ?? [];
+      for (const sc of sectionComponents) {
+        newSectionComponents.push({
+          id: randomUUID(),
+          sectionId: sectionUuid,
+          componentId: sc.componentId,
+          index: sc.index,
+          componentData: sc.componentData,
+          componentSettings: sc.componentSettings,
+        });
+      }
+    }
+
+    // 4. save via the repository
+    await this.pageRepository.save(newPage, newSections, newSectionComponents);
+
+    // 5. Return assembled full page tree
+    const page = await this.pageRepository.findByNameEN(dto.nameEN);
+    if (!page) throw new Error('Page creation failed');
+    return page;
+  }
+}

@@ -30,7 +30,7 @@ export class ComponentPrismaRepository implements IComponentRepository {
   }
 
   async save(component: Component): Promise<void> {
-    // Resolve parent's integer ID if parentId is provided
+    // get parent integer ID if parentId is provided
     let parentIntId: number | null = null;
     if (component.parentId) {
       const parent = await this.prisma.component.findUnique({

@@ -24,7 +24,7 @@ import { JwtAuthGuard } from './presentation/gaurds/auth.guard';
     PrismaModule,
     ConfigModule,
     JwtModule.registerAsync({
-      imports: [ConfigModule], // Ensures ConfigService is available
+      imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => {
         const secret = configService.get<string>('ACCESS_SECRET_KEY');

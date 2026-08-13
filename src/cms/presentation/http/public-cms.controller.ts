@@ -1,7 +1,8 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { CmsPublicService } from '../../application/cms-public.service';
 import { Public } from '../../../shared/decorators/public.decorator';
-import { FullPageTree, Page } from '../../domain/cms.types';
+import { PageSummaryDto } from './dto/page.dto';
+import { FullPageTree } from '../../domain/cms.types';
 
 @Controller('pages')
 export class PublicCmsController {
@@ -9,7 +10,7 @@ export class PublicCmsController {
 
   @Public()
   @Get('/')
-  async getAllVisiblePages(): Promise<Page[]> {
+  async getAllVisiblePages(): Promise<PageSummaryDto[]> {
     return this.cmsPublicService.getALLVisiblePages();
   }
 
