@@ -1,3 +1,5 @@
+import { UpdatePageDto } from '../presentation/http/dto/update-page.dto';
+
 export interface Page {
   id: string;
   nameEN: string;
@@ -60,36 +62,63 @@ export interface FullPageTree {
   }[];
 }
 export interface IPageRepository {
+  findAll(): Promise<Page[]>;
+
   findAllVisible(): Promise<Page[]>;
+
   findByUuid(uuid: string): Promise<FullPageTree | null>;
+
   findByNameEN(name: string): Promise<FullPageTree | null>;
+
   save(
     page: Page,
     sections?: Section[],
     sectionComponents?: SectionComponent[],
   ): Promise<void>;
-  delete(uuid: string): Promise<void>;
+
+  update(uuid: string, page: UpdatePageDto): Promise<Page | null>;
+
+  delete(uuid: string): Promise<boolean>;
 }
 
 export interface ISectionRepository {
   findByPageUuid(pageUuid: string): Promise<Section[]>;
+
   findByUuid(uuid: string): Promise<Section | null>;
-  save(section: Section): Promise<void>;
-  delete(uuid: string): Promise<void>;
+
+  save(section: Section): Promise<Section | null>;
+
+  update(
+    sectionUuid: string,
+    section: Partial<Section>,
+  ): Promise<Section | null>;
+
+  delete(uuid: string): Promise<boolean>;
 }
 
 export interface IComponentRepository {
   findByUuid(uuid: string): Promise<Component | null>;
   findManyByUuids(uuids: string[]): Promise<Component[]>;
   findAll(): Promise<Component[]>;
-  save(component: Component): Promise<void>; // save a new component definition
-  delete(uuid: string): Promise<void>; // delete component definition
+  save(component: Component): Promise<Component | null>; // save a new component definition
+
+  update(
+    componentUuid: string,
+    component: Partial<Component>,
+  ): Promise<Component | null>; // update a component definition
+
+  delete(uuid: string): Promise<boolean>; // delete component definition
 }
 
 export interface ISectionComponentRepository {
   findBySectionUuid(sectionUuid: string): Promise<SectionComponent[]>; // find all components in a section
-  save(sc: SectionComponent): Promise<void>; // save component instance in a section
-  delete(uuid: string): Promise<void>; // delete component instance in a section
+  save(sc: SectionComponent): Promise<SectionComponent>; // save component instance in a section
+  update(
+    uuid: string,
+    sc: Partial<SectionComponent>,
+  ): Promise<SectionComponent>; // update component instance in a section
+
+  delete(uuid: string): Promise<boolean>; // delete component instance in a section
 }
 
 export const I_PAGE_REPOSITORY = Symbol('PAGE_REPOSITORY');

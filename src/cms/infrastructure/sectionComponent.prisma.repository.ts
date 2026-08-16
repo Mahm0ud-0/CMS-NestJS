@@ -21,8 +21,7 @@ export class SectionComponentPrismaRepository implements ISectionComponentReposi
     return records.map((r) => this.toDomain(r));
   }
 
-  async save(sc: SectionComponent): Promise<void> {
-    
+  async save(sc: SectionComponent): Promise<SectionComponent> {
     const section = await this.prisma.section.findUnique({
       where: { uuid: sc.sectionId },
     });
@@ -34,7 +33,7 @@ export class SectionComponentPrismaRepository implements ISectionComponentReposi
     if (!component)
       throw new Error(`Component with UUID ${sc.componentId} not found`);
 
-    await this.prisma.sectionComponent.upsert({
+    const result = await this.prisma.sectionComponent.upsert({
       where: { uuid: sc.id },
       update: {
         componentData: sc.componentData,
@@ -49,11 +48,36 @@ export class SectionComponentPrismaRepository implements ISectionComponentReposi
         componentSettings: sc.componentSettings,
         index: sc.index,
       },
+      include: {
+        section: { select: { uuid: true } },
+        component: { select: { uuid: true } },
+      },
     });
+    return this.toDomain(result);
   }
 
-  async delete(uuid: string): Promise<void> {
+  async update(
+    uuid: string,
+    sc: Partial<SectionComponent>,
+  ): Promise<SectionComponent> {
+    const updated = await this.prisma.sectionComponent.update({
+      where: { uuid },
+      data: {
+        componentData: sc.componentData,
+        componentSettings: sc.componentSettings,
+        index: sc.index,
+      },
+      include: {
+        section: { select: { uuid: true } },
+        component: { select: { uuid: true } },
+      },
+    });
+    return this.toDomain(updated);
+  }
+
+  async delete(uuid: string): Promise<boolean> {
     await this.prisma.sectionComponent.delete({ where: { uuid } });
+    return true;
   }
 
   private toDomain(record: any): SectionComponent {

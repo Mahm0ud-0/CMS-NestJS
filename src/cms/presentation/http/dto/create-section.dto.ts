@@ -8,7 +8,7 @@ import {
   Min,
   ValidateNested,
 } from 'class-validator';
-import { AddComponentToSectionDto } from './add-ComponentToSection.dto';
+import { CreateSectionComponentDto } from './create-sectionComponent.dto';
 
 export class CreateSectionDto {
   @IsOptional()
@@ -28,7 +28,7 @@ export class CreateSectionDto {
 
   @IsOptional()
   @IsArray()
-  @Type(() => AddComponentToSectionDto)
+  @Type(() => CreateSectionComponentDto)
   @ValidateNested({ each: true })
-  components?: AddComponentToSectionDto[];
+  components?: CreateSectionComponentDto[];
 }

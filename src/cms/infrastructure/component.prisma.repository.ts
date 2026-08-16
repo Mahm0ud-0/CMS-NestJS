@@ -29,7 +29,7 @@ export class ComponentPrismaRepository implements IComponentRepository {
     return records.map((r) => this.toDomain(r));
   }
 
-  async save(component: Component): Promise<void> {
+  async save(component: Component): Promise<Component | null> {
     // get parent integer ID if parentId is provided
     let parentIntId: number | null = null;
     if (component.parentId) {
@@ -43,7 +43,7 @@ export class ComponentPrismaRepository implements IComponentRepository {
       parentIntId = parent.id;
     }
 
-    await this.prisma.component.upsert({
+    const result = await this.prisma.component.upsert({
       where: { uuid: component.id },
       update: {
         nameEN: component.nameEN,
@@ -58,11 +58,43 @@ export class ComponentPrismaRepository implements IComponentRepository {
         index: component.index,
         parentId: parentIntId,
       },
+      include: { parent: { select: { uuid: true } } },
     });
+    return result ? this.toDomain(result) : null;
   }
 
-  async delete(uuid: string): Promise<void> {
+  async update(
+    componentUuid: string,
+    component: Partial<Component>,
+  ): Promise<Component | null> {
+    // get parent integer ID if parentId is provided
+    let parentIntId: number | null = null;
+    if (component.parentId) {
+      const parent = await this.prisma.component.findUnique({
+        where: { uuid: component.parentId },
+      });
+      if (!parent)
+        throw new Error(
+          `Parent component with UUID ${component.parentId} not found`,
+        );
+      parentIntId = parent.id;
+    }
+
+    const result = await this.prisma.component.update({
+      where: { uuid: componentUuid },
+      data: {
+        nameEN: component.nameEN,
+        nameAR: component.nameAR,
+        index: component.index,
+        parentId: parentIntId,
+      },
+    });
+    return result ? this.toDomain(result) : null;
+  }
+
+  async delete(uuid: string): Promise<boolean> {
     await this.prisma.component.delete({ where: { uuid } });
+    return true;
   }
 
   private toDomain(record: any): Component {

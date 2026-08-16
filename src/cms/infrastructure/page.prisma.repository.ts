@@ -12,6 +12,13 @@ import { PrismaService } from '../../core/database/prisma/prisma.service';
 export class PagePrismaRepository implements IPageRepository {
   constructor(private readonly prisma: PrismaService) {}
 
+  async findAll(): Promise<Page[]> {
+    const pages = await this.prisma.page.findMany({
+      orderBy: { index: 'asc' },
+    });
+    return pages.map((r) => this.toDomain(r));
+  }
+
   async findAllVisible(): Promise<Page[]> {
     const pages = await this.prisma.page.findMany({
       where: { isVisible: true },
@@ -73,7 +80,7 @@ export class PagePrismaRepository implements IPageRepository {
     sectionComponents?: SectionComponent[],
   ): Promise<void> {
     await this.prisma.$transaction(async (tx) => {
-      // 1. create the page and get its ID
+      // 1. create the page and get its ID to link sections
       const createdPage = await tx.page.create({
         data: {
           uuid: page.id,
@@ -88,7 +95,7 @@ export class PagePrismaRepository implements IPageRepository {
       // 2. create sections if exists and save IDs
       const sectionIntIds = new Map<string, number>();
 
-      for (const section of sections as Array<Section>) {
+      for (const section of sections ?? ([] as Array<Section>)) {
         const createdSection = await tx.section.create({
           data: {
             uuid: section.id,
@@ -104,7 +111,7 @@ export class PagePrismaRepository implements IPageRepository {
         sectionIntIds.set(section.id, createdSection.id);
       }
 
-      // 3. create placements if exists
+      // 3. create section components if exist
       const componentUuids = [
         ...new Set(sectionComponents?.map((sc) => sc.componentId)),
       ];
@@ -116,38 +123,49 @@ export class PagePrismaRepository implements IPageRepository {
       });
       const componentIntIdMap = new Map(components.map((c) => [c.uuid, c.id]));
 
-      for (const placement of sectionComponents as Array<SectionComponent>) {
-        const sectionIntId = sectionIntIds.get(placement.sectionId) as number;
-        const componentIntId = componentIntIdMap.get(
-          placement.componentId,
-        ) as number;
+      for (const sc of sectionComponents ?? ([] as Array<SectionComponent>)) {
+        const sectionIntId = sectionIntIds.get(sc.sectionId) as number;
+        const componentIntId = componentIntIdMap.get(sc.componentId) as number;
         if (!sectionIntId) {
-          throw new Error(
-            `Section with uuid ${placement.sectionId} not found `,
-          );
+          throw new Error(`Section with uuid ${sc.sectionId} not found `);
         }
         if (!componentIntId) {
-          throw new Error(
-            `Component with uuid ${placement.componentId} not found `,
-          );
+          throw new Error(`Component with uuid ${sc.componentId} not found `);
         }
 
-        const createdPlacement = await tx.sectionComponent.create({
+        await tx.sectionComponent.create({
           data: {
-            uuid: placement.id,
-            index: placement.index,
+            uuid: sc.id,
+            index: sc.index,
             sectionId: sectionIntId,
             componentId: componentIntId,
-            componentData: placement.componentData,
-            componentSettings: placement.componentSettings,
+            componentData: sc.componentData,
+            componentSettings: sc.componentSettings,
           },
         });
       }
     });
   }
 
-  async delete(uuid: string): Promise<void> {
+  async update(
+    uuid: string,
+    page: Pick<Page, 'nameAR' | 'nameEN' | 'isVisible' | 'index'>,
+  ): Promise<Page | null> {
+    const updatedPage = await this.prisma.page.update({
+      where: { uuid },
+      data: {
+        nameEN: page.nameEN,
+        nameAR: page.nameAR,
+        isVisible: page.isVisible,
+        index: page.index,
+      },
+    });
+    return updatedPage ? this.toDomain(updatedPage) : null;
+  }
+
+  async delete(uuid: string): Promise<boolean> {
     await this.prisma.page.delete({ where: { uuid } });
+    return true;
   }
 
   private toDomain(pageRecord: any): Page {

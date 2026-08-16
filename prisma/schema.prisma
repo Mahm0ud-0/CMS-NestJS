@@ -71,8 +71,8 @@ model SectionComponent {
   index             Int       @default(0)
   section           Section   @relation(fields: [sectionId], references: [id])
   component         Component @relation(fields: [componentId], references: [id])
-  componentData     Json
-  componentSettings Json
+  componentData     Json      @db.JsonB
+  componentSettings Json      @db.JsonB
   updatedAt         DateTime  @updatedAt
 }
 

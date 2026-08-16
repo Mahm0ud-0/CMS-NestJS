@@ -1,13 +1,5 @@
 import { Type } from 'class-transformer';
-import {
-  IsArray,
-  IsInt,
-  IsOptional,
-  IsString,
-  IsUUID,
-  Min,
-  ValidateNested,
-} from 'class-validator';
+import { IsInt, IsOptional, IsString, IsUUID, Min } from 'class-validator';
 // import { UpdateComponentDto } from './update-component.dto';
 
 export class UpdateSectionDto {
@@ -29,9 +21,9 @@ export class UpdateSectionDto {
   @Min(0)
   index?: number;
 
-//   @IsOptional()
-//   @IsArray()
-//   @Type(() => UpdateComponentDto)
-//   @ValidateNested({ each: true })
-//   components?: UpdateComponentDto[];
+  //   @IsOptional()
+  //   @IsArray()
+  //   @Type(() => UpdateComponentDto)
+  //   @ValidateNested({ each: true })
+  //   components?: UpdateComponentDto[];
 }

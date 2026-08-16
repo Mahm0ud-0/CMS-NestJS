@@ -23,14 +23,14 @@ export class SectionPrismaRepository implements ISectionRepository {
     return record ? this.toDomain(record) : null;
   }
 
-  async save(section: Section): Promise<void> {
+  async save(section: Section): Promise<Section | null> {
     const page = await this.prisma.page.findUnique({
       where: { uuid: section.pageId },
     });
     if (!page)
       throw new NotFoundException(`Page with ID ${section.pageId} not found`);
 
-    await this.prisma.section.upsert({
+    const result = await this.prisma.section.upsert({
       where: { uuid: section.id },
       update: {
         nameEN: section.nameEN,
@@ -44,11 +44,31 @@ export class SectionPrismaRepository implements ISectionRepository {
         index: section.index,
         pageId: page.id, // integer FK
       },
+      include: { page: { select: { uuid: true } } },
     });
+
+    return result ? this.toDomain(result) : null;
   }
 
-  async delete(uuid: string): Promise<void> {
+  async update(
+    sectionUuid: string,
+    section: Partial<Section>,
+  ): Promise<Section | null> {
+    const updatedSection = await this.prisma.section.update({
+      where: { uuid: sectionUuid },
+      data: {
+        index: section.index,
+        nameEN: section.nameEN,
+        nameAR: section.nameAR,
+      },
+      include: { page: { select: { uuid: true } } },
+    });
+    return updatedSection ? this.toDomain(updatedSection) : null;
+  }
+
+  async delete(uuid: string): Promise<boolean> {
     await this.prisma.section.delete({ where: { uuid } });
+    return true;
   }
 
   private toDomain(record: any): Section {
