@@ -25,6 +25,7 @@ export class ComponentPrismaRepository implements IComponentRepository {
   async findAll(): Promise<Component[]> {
     const records = await this.prisma.component.findMany({
       include: { parent: { select: { uuid: true } } },
+      orderBy: { index: 'asc' },
     });
     return records.map((r) => this.toDomain(r));
   }
