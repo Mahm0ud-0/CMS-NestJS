@@ -34,6 +34,8 @@ model Page {
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
   sections  Section[]
+
+  @@index([nameEN], name: "page_name_index")
 }
 
 model Section {
@@ -46,7 +48,7 @@ model Section {
   createdAt         DateTime           @default(now())
   updatedAt         DateTime?          @updatedAt
   sectionComponents SectionComponent[]
-  page              Page               @relation(fields: [pageId], references: [id])
+  page              Page               @relation(fields: [pageId], references: [id], onDelete: Cascade)
 }
 
 model Component {
@@ -56,7 +58,7 @@ model Component {
   nameAR            String
   index             Int                @default(0)
   parentId          Int?
-  parent            Component?         @relation("ComponentTree", fields: [parentId], references: [id])
+  parent            Component?         @relation("ComponentTree", fields: [parentId], references: [id], onDelete: Cascade)
   children          Component[]        @relation("ComponentTree")
   createdAt         DateTime           @default(now())
   updatedAt         DateTime?          @updatedAt
@@ -69,8 +71,8 @@ model SectionComponent {
   sectionId         Int
   componentId       Int
   index             Int       @default(0)
-  section           Section   @relation(fields: [sectionId], references: [id])
-  component         Component @relation(fields: [componentId], references: [id])
+  section           Section   @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+  component         Component @relation(fields: [componentId], references: [id], onDelete: Cascade)
   componentData     Json      @db.JsonB
   componentSettings Json      @db.JsonB
   updatedAt         DateTime  @updatedAt
@@ -81,7 +83,7 @@ model RefreshToken {
   uuid      String   @unique @default(uuid())
   tokenHash String   @unique
   userId    Int
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   expiresAt DateTime
   createdAt DateTime @default(now())
   revoked   Boolean  @default(false)
